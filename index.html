@@ -53,6 +53,21 @@
             box-sizing: border-box;
         }
 
+        /* Focus visible styles for accessibility */
+        *:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible,
+        select:focus-visible,
+        textarea:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-primary);
@@ -84,6 +99,7 @@
             padding: 1.5rem;
             z-index: 1000;
             transition: background-color 0.3s ease, transform 0.3s ease;
+            will-change: transform;
         }
 
         /* Sidebar Logo */
@@ -110,13 +126,15 @@
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            padding: 0.75rem 1rem;
+            padding: 0.875rem 1rem;
             color: var(--text-secondary);
             text-decoration: none;
             border-radius: 0.5rem;
             transition: all 0.2s ease;
             cursor: pointer;
             border-left: 3px solid transparent;
+            min-height: 44px;
+            will-change: background-color, border-left-color;
         }
 
         .nav-link:hover {
@@ -147,12 +165,14 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0.75rem 1rem;
+            padding: 0.875rem 1rem;
             background-color: var(--bg-tertiary);
             border-radius: 0.5rem;
             cursor: pointer;
             transition: background-color 0.2s ease;
             margin-bottom: 1rem;
+            min-height: 44px;
+            touch-action: manipulation;
         }
 
         .theme-toggle:hover {
@@ -251,9 +271,12 @@
             background-color: var(--sidebar-bg);
             border: 1px solid var(--border-color);
             border-radius: 0.5rem;
-            padding: 0.5rem 0.75rem;
+            padding: 0.75rem;
             cursor: pointer;
             transition: background-color 0.2s ease;
+            min-width: 44px;
+            min-height: 44px;
+            touch-action: manipulation;
         }
 
         .hamburger-menu:hover {
@@ -1723,22 +1746,35 @@
             display: flex;
             gap: 1rem;
             margin-bottom: 2rem;
+            align-items: center;
         }
 
         .habits-add-section input {
             flex: 1;
+            min-width: 0;
             padding: 0.75rem 1rem;
             background-color: #1e293b;
             border: 1px solid #334155;
             border-radius: 8px;
             color: #f1f5f9;
             font-size: 1rem;
+            height: 48px;
         }
 
         .habits-add-section input:focus {
             outline: none;
             border-color: #3b82f6;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .habits-add-section .btn-primary {
+            width: auto;
+            white-space: nowrap;
+            padding: 0.75rem 1.5rem;
+            height: 48px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .habits-list-container h3,
@@ -1764,6 +1800,7 @@
             align-items: center;
             justify-content: space-between;
             transition: all 0.2s ease;
+            will-change: transform, border-color, box-shadow;
         }
 
         .habit-card:hover {
@@ -1835,6 +1872,9 @@
             border-radius: 6px;
             transition: all 0.2s ease;
             font-size: 1.1rem;
+            min-width: 44px;
+            min-height: 44px;
+            touch-action: manipulation;
         }
 
         .habit-delete-btn:hover {
@@ -1941,6 +1981,15 @@
                 flex-direction: column;
             }
 
+            .habits-add-section input {
+                width: 100%;
+            }
+
+            .habits-add-section .btn-primary {
+                width: 100%;
+                margin-top: 0.5rem;
+            }
+
             .habits-grid {
                 grid-template-columns: 1fr;
             }
@@ -1951,6 +2000,211 @@
 
             .chart-bar-label {
                 font-size: 0.6rem;
+            }
+        }
+
+        /* Profile Page Styles */
+        .profile-container {
+            max-width: 4xl;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .profile-hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: linear-gradient(to bottom, #18181b, transparent);
+            border-radius: 1rem;
+            border: 1px solid #27272a;
+            margin-bottom: 2rem;
+            animation: fadeUp 0.5s ease-out;
+        }
+
+        .profile-avatar-wrapper {
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: #18181b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            border: 4px solid #3b82f6;
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.6);
+            overflow: hidden;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .profile-identity {
+            text-align: center;
+        }
+
+        .profile-name {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #e2e8f0;
+            margin: 0 0 1rem 0;
+        }
+
+        .profile-badges {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .badge {
+            padding: 0.375rem 1rem;
+            font-size: 0.75rem;
+            font-weight: bold;
+            border-radius: 9999px;
+            text-transform: uppercase;
+        }
+
+        .badge-jee {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .badge-gender {
+            background-color: rgba(168, 85, 247, 0.1);
+            color: #a855f7;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+
+        .profile-bio {
+            color: #71717a;
+            font-style: italic;
+            max-width: 28rem;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+            animation: fadeUp 0.5s ease-out 0.1s backwards;
+        }
+
+        .stat-card {
+            background-color: #18181b;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            border: 1px solid #27272a;
+            text-align: center;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            border-color: #3b82f6;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #71717a;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: bold;
+        }
+
+        .stat-value-blue {
+            color: #3b82f6;
+        }
+
+        .stat-value-green {
+            color: #10b981;
+        }
+
+        .stat-value-orange {
+            color: #f97316;
+        }
+
+        .profile-report-card {
+            animation: fadeUp 0.5s ease-out 0.2s backwards;
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .report-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #e2e8f0;
+            margin: 0;
+        }
+
+        .btn-generate {
+            padding: 0.625rem 1.25rem;
+            font-size: 0.875rem;
+        }
+
+        .report-description {
+            color: #71717a;
+            font-size: 0.875rem;
+            margin: 0;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile Responsive for Profile */
+        @media (max-width: 768px) {
+            .profile-hero {
+                padding: 1.5rem;
+            }
+
+            .profile-avatar {
+                width: 100px;
+                height: 100px;
+                font-size: 2rem;
+            }
+
+            .profile-name {
+                font-size: 1.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .report-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .btn-generate {
+                width: 100%;
             }
         }
 
@@ -2613,51 +2867,51 @@
 
         <!-- Profile Page -->
         <div id="page-profile" class="page-content hidden">
-            <!-- Sticky Header / Identity -->
-            <div class="relative mb-8">
-                <div class="flex flex-col items-center justify-center p-8 bg-gradient-to-b from-dark-light to-transparent rounded-2xl border border-gray-800">
-                    <!-- Avatar -->
-                    <div id="profile-avatar-container" class="w-32 h-32 rounded-full mb-6 flex items-center justify-center text-4xl font-bold border-4 shadow-[0_0_30px_rgba(59,130,246,0.5)] bg-dark-light relative overflow-hidden">
-                        <span id="profile-avatar-text"></span>
+            <div class="profile-container">
+                <!-- Hero Section -->
+                <div class="profile-hero">
+                    <div class="profile-avatar-wrapper">
+                        <div id="profile-avatar-container" class="profile-avatar">
+                            <span id="profile-avatar-text"></span>
+                        </div>
                     </div>
                     
-                    <!-- Identity Info -->
-                    <div class="text-center space-y-2">
-                        <h1 id="profile-name" class="text-3xl font-bold text-white">User Name</h1>
-                        <div class="flex flex-wrap justify-center gap-3">
-                            <span class="px-3 py-1 bg-blue-900/50 text-blue-400 text-xs font-bold rounded-full border border-blue-800">JEE ASPIRANT</span>
-                            <span id="profile-gender-badge" class="px-3 py-1 bg-purple-900/50 text-purple-400 text-xs font-bold rounded-full border border-purple-800">Male</span>
+                    <div class="profile-identity">
+                        <h1 id="profile-name" class="profile-name">User Name</h1>
+                        <div class="profile-badges">
+                            <span class="badge badge-jee">JEE ASPIRANT</span>
+                            <span id="profile-gender-badge" class="badge badge-gender">Male</span>
                         </div>
-                        <p id="profile-bio" class="text-gray-400 max-w-md mx-auto italic">"Dream big, work hard."</p>
+                        <p id="profile-bio" class="profile-bio">"Dream big, work hard."</p>
                     </div>
                 </div>
-            </div>
 
-            <!-- Stats Row -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                <div class="card p-6 text-center border-l-4 border-blue-500">
-                    <div class="text-gray-400 text-sm mb-1">Total Study Hours</div>
-                    <div id="stat-total-hours" class="text-2xl font-bold text-white">0h</div>
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Total Study Hours</div>
+                        <div id="stat-total-hours" class="stat-value stat-value-blue">0h</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Questions Solved</div>
+                        <div id="stat-total-questions" class="stat-value stat-value-green">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Current Streak</div>
+                        <div id="stat-current-streak" class="stat-value stat-value-orange">0 Days</div>
+                    </div>
                 </div>
-                <div class="card p-6 text-center border-l-4 border-green-500">
-                    <div class="text-gray-400 text-sm mb-1">Questions Solved</div>
-                    <div id="stat-total-questions" class="text-2xl font-bold text-white">0</div>
-                </div>
-                <div class="card p-6 text-center border-l-4 border-orange-500">
-                    <div class="text-gray-400 text-sm mb-1">Current Streak</div>
-                    <div id="stat-current-streak" class="text-2xl font-bold text-white">0 Days</div>
-                </div>
-            </div>
 
-            <!-- PDF Generator Section -->
-            <div class="card">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-xl font-bold text-white">Progress Report</h3>
-                    <button onclick="openReportModal()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors">
-                        Generate Report
-                    </button>
+                <!-- PDF Generator Section -->
+                <div class="card profile-report-card">
+                    <div class="report-header">
+                        <h3 class="report-title">Generate Progress Report</h3>
+                        <button onclick="openReportModal()" class="btn btn-primary btn-generate">
+                            Generate Report
+                        </button>
+                    </div>
+                    <p class="report-description">Generate a comprehensive PDF report of your performance, study hours, and consistency.</p>
                 </div>
-                <p class="text-gray-400 text-sm">Generate a comprehensive PDF report of your performance, study hours, and consistency.</p>
             </div>
         </div>
     </main>
@@ -2681,20 +2935,20 @@
             </div>
         </div>
 
-        <div id="custom-date-inputs" class="hidden mb-6 grid grid-cols-2 gap-4">
+        <div id="custom-date-inputs" class="hidden mb-6 space-y-4">
             <div>
                 <label class="block text-xs text-gray-500 mb-1">From</label>
-                <input type="date" id="report-date-from" class="w-full bg-dark-light border border-gray-700 rounded p-2 text-white text-sm">
+                <input type="date" id="report-date-from" class="w-full bg-dark-light border border-gray-700 rounded p-2.5 text-white text-sm">
             </div>
             <div>
                 <label class="block text-xs text-gray-500 mb-1">To</label>
-                <input type="date" id="report-date-to" class="w-full bg-dark-light border border-gray-700 rounded p-2 text-white text-sm">
+                <input type="date" id="report-date-to" class="w-full bg-dark-light border border-gray-700 rounded p-2.5 text-white text-sm">
             </div>
         </div>
 
         <div class="flex justify-end gap-3">
             <button onclick="closeReportModal()" class="px-4 py-2 text-gray-400 hover:text-white transition-colors">Cancel</button>
-            <button onclick="generateAndPrintReport()" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-lg shadow-blue-500/20 transition-all">
+            <button onclick="generateAndPrintReport()" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-lg shadow-blue-500/20 transition-all">
                 Create PDF
             </button>
         </div>
@@ -2784,11 +3038,14 @@
 
         /**
          * Saves data to localStorage
-         * @param {Object} data - Data object to save
+         * @param {Object} data - Data object to save (optional, uses current state if not provided)
          * @returns {boolean} True if successful, false otherwise
          */
         function saveData(data) {
             try {
+                if (!data) {
+                    data = getData();
+                }
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
                 return true;
             } catch (error) {
@@ -2927,6 +3184,16 @@
                 // Re-render mock tests when navigating to that page
                 if (pageId === 'mock-tests') {
                     renderMockTests();
+                }
+                
+                // Render profile when navigating to profile page
+                if (pageId === 'profile') {
+                    renderProfile();
+                }
+                
+                // Render habits when navigating to habits page
+                if (pageId === 'habits') {
+                    renderHabits();
                 }
             }
 
