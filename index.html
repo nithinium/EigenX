@@ -2784,11 +2784,14 @@
 
         /**
          * Saves data to localStorage
-         * @param {Object} data - Data object to save
+         * @param {Object} data - Data object to save (optional, uses current state if not provided)
          * @returns {boolean} True if successful, false otherwise
          */
         function saveData(data) {
             try {
+                if (!data) {
+                    data = getData();
+                }
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
                 return true;
             } catch (error) {
