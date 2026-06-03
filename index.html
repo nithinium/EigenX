@@ -468,6 +468,189 @@
         }
 
         /* ============================================
+           DASHBOARD CONSISTENCY CHART STYLES
+           ============================================ */
+        .dashboard-consistency-card {
+            margin-bottom: 1.5rem;
+        }
+        
+        .consistency-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        #consistency-chart-container {
+            position: relative;
+            min-height: 250px;
+            width: 100%;
+        }
+        
+        .consistency-chart-svg {
+            width: 100%;
+            height: 250px;
+        }
+        
+        .consistency-bar {
+            transition: opacity 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .consistency-bar:hover {
+            opacity: 0.8;
+        }
+        
+        .consistency-tooltip {
+            position: absolute;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            font-size: 0.8rem;
+            z-index: 100;
+            pointer-events: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            max-width: 250px;
+        }
+        
+        .consistency-tooltip h4 {
+            margin-bottom: 0.5rem;
+            color: var(--accent-color);
+            font-size: 0.85rem;
+        }
+        
+        .consistency-tooltip-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.25rem;
+        }
+        
+        .consistency-tooltip-label {
+            color: var(--text-secondary);
+        }
+        
+        .consistency-tooltip-value {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* ============================================
+           DASHBOARD TASKS QUICK ACCESS STYLES
+           ============================================ */
+        .dashboard-tasks-card {
+            margin-bottom: 1.5rem;
+        }
+        
+        .subject-filter-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-tab-btn {
+            padding: 0.5rem 1rem;
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .filter-tab-btn:hover {
+            background-color: var(--border-color);
+            color: var(--text-primary);
+        }
+        
+        .filter-tab-btn.active {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: #ffffff;
+        }
+        
+        .dashboard-tasks-grid {
+            display: grid;
+            gap: 0.75rem;
+        }
+        
+        .dashboard-task-card {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            background-color: var(--bg-tertiary);
+            border-radius: 0.5rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+        }
+        
+        .dashboard-task-card:hover {
+            border-color: var(--accent-color);
+        }
+        
+        .dashboard-task-card.completed {
+            opacity: 0.6;
+        }
+        
+        .dashboard-task-card.completed .task-name-display {
+            text-decoration: line-through;
+        }
+        
+        .dashboard-task-subject-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            min-width: 70px;
+            text-align: center;
+        }
+        
+        .badge-math {
+            background-color: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+            border: 1px solid #3b82f6;
+        }
+        
+        .badge-physics {
+            background-color: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border: 1px solid #10b981;
+        }
+        
+        .badge-chemistry {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+            border: 1px solid #f59e0b;
+        }
+        
+        .task-name-display {
+            flex: 1;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+        
+        .dashboard-task-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--accent-color);
+        }
+        
+        .dashboard-empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+        }
+        
+        .dashboard-empty-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* ============================================
            RESPONSIVE ADJUSTMENTS
            ============================================ */
         @media (max-width: 768px) {
@@ -2465,11 +2648,32 @@
                 <h1 class="page-title">Welcome to EigenX</h1>
                 <p class="page-subtitle">Your personal JEE exam preparation tracker</p>
             </div>
-            <div class="page-card">
-                <div class="placeholder-content">
-                    <div class="placeholder-icon">🏠</div>
-                    <h2>Home Dashboard</h2>
-                    <p>Track your progress, manage tasks, and stay on top of your JEE preparation journey.</p>
+            
+            <!-- FEATURE 1: Consistency Graph (Last 30 Days) -->
+            <div class="page-card dashboard-consistency-card">
+                <h2 class="section-title">📊 Consistency Tracker (Last 30 Days)</h2>
+                <p class="consistency-description">Daily consistency score based on tasks completed, study hours, and questions solved</p>
+                <div id="consistency-chart-container" class="chart-container">
+                    <div class="chart-placeholder">Start tracking your progress to see consistency data</div>
+                </div>
+                <div id="consistency-tooltip" class="consistency-tooltip hidden"></div>
+            </div>
+            
+            <!-- FEATURE 1: Today's Pending Tasks Quick Access -->
+            <div class="page-card dashboard-tasks-card">
+                <h2 class="section-title">✅ Today's Pending Tasks</h2>
+                
+                <!-- Subject Filter Tabs -->
+                <div class="subject-filter-tabs">
+                    <button class="filter-tab-btn active" data-filter="all">All</button>
+                    <button class="filter-tab-btn" data-filter="math">Mathematics</button>
+                    <button class="filter-tab-btn" data-filter="physics">Physics</button>
+                    <button class="filter-tab-btn" data-filter="chemistry">Chemistry</button>
+                </div>
+                
+                <!-- Tasks List -->
+                <div id="dashboard-tasks-list" class="dashboard-tasks-grid">
+                    <!-- Tasks injected here via JavaScript -->
                 </div>
             </div>
         </div>
@@ -3500,6 +3704,9 @@
                     saveTasks(tasks);
                     renderTasks();
                     updateProgress();
+                    // FEATURE 1: Update dashboard consistency graph and tasks list
+                    renderDashboardConsistencyChart();
+                    renderDashboardTasksList();
                 }
             }
         }
