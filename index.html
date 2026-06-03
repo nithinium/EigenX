@@ -1204,6 +1204,258 @@
                 font-size: 2.25rem;
             }
         }
+
+        /* ============================================
+           MOCK TESTS PAGE STYLES
+           ============================================ */
+        
+        .mock-tests-card {
+            margin-bottom: 1.5rem;
+        }
+
+        .mock-test-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .btn-save-test {
+            background-color: var(--accent-color);
+            margin-top: 0.5rem;
+        }
+
+        .btn-save-test:hover {
+            background-color: var(--accent-hover);
+        }
+
+        /* Filter Tabs */
+        .filter-tabs-container {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .filter-tab {
+            padding: 0.75rem 1.5rem;
+            background-color: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 0.5rem 0.5rem 0 0;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .filter-tab:hover {
+            color: var(--text-primary);
+            background-color: var(--bg-tertiary);
+        }
+
+        .filter-tab.active {
+            color: var(--accent-color);
+            background-color: rgba(59, 130, 246, 0.1);
+        }
+
+        .filter-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--accent-color);
+            box-shadow: 0 -2px 10px rgba(59, 130, 246, 0.5);
+        }
+
+        /* Test History Table */
+        .test-history-container {
+            overflow-x: auto;
+        }
+
+        .test-list-empty {
+            text-align: center;
+            padding: 3rem 0;
+            color: var(--text-muted);
+        }
+
+        .test-history-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .test-history-table th,
+        .test-history-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .test-history-table th {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .test-history-table td {
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .test-history-table tr:hover td {
+            background-color: var(--bg-tertiary);
+        }
+
+        .score-percentage {
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.25rem;
+            font-size: 0.85rem;
+        }
+
+        .percentage-high {
+            background-color: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+
+        .percentage-medium {
+            background-color: rgba(234, 179, 8, 0.2);
+            color: #eab308;
+        }
+
+        .percentage-low {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .delete-test-btn {
+            padding: 0.5rem 1rem;
+            background-color: transparent;
+            border: 1px solid #ef4444;
+            color: #ef4444;
+            border-radius: 0.5rem;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .delete-test-btn:hover {
+            background-color: #ef4444;
+            color: #ffffff;
+        }
+
+        /* Chart Container */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            background-color: var(--bg-tertiary);
+            border-radius: 0.5rem;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .trend-chart {
+            width: 100%;
+            height: 100%;
+        }
+
+        .chart-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-muted);
+        }
+
+        .chart-placeholder.hidden {
+            display: none;
+        }
+
+        .trend-chart.hidden {
+            display: none;
+        }
+
+        /* Chart Styles */
+        .chart-axis {
+            stroke: var(--border-color);
+            stroke-width: 1;
+        }
+
+        .chart-grid {
+            stroke: var(--border-color);
+            stroke-width: 0.5;
+            stroke-dasharray: 4, 4;
+            opacity: 0.5;
+        }
+
+        .chart-line {
+            fill: none;
+            stroke: var(--accent-color);
+            stroke-width: 2;
+        }
+
+        .chart-point {
+            fill: var(--accent-color);
+            stroke: var(--bg-primary);
+            stroke-width: 2;
+        }
+
+        .chart-label {
+            fill: var(--text-secondary);
+            font-size: 10px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+            }
+
+            .form-row .form-group {
+                width: 100%;
+            }
+
+            .filter-tabs-container {
+                flex-wrap: wrap;
+            }
+
+            .filter-tab {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+
+            .test-history-table th,
+            .test-history-table td {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.85rem;
+            }
+
+            .chart-container {
+                height: 250px;
+            }
+        }
     </style>
 </head>
 <body class="dark">
@@ -1508,13 +1760,91 @@
         <div id="page-mock-tests" class="page-content page hidden">
             <div class="page-header">
                 <h1 class="page-title">Mock Tests</h1>
-                <p class="page-subtitle">Practice with full-length mock examinations</p>
+                <p class="page-subtitle">Track your mock test performance and analyze trends</p>
             </div>
-            <div class="page-card">
-                <div class="placeholder-content">
-                    <div class="placeholder-icon">📊</div>
-                    <h2>Mock Tests</h2>
-                    <p>Take timed mock tests and analyze your performance.</p>
+
+            <!-- Section A: Data Entry Form -->
+            <div class="page-card mock-tests-card">
+                <h2 class="section-title">Add New Test</h2>
+                <form id="mock-test-form" class="mock-test-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="test-name">Test Name *</label>
+                            <input type="text" id="test-name" placeholder="e.g., JEE Main Mock 1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="test-category">Category *</label>
+                            <select id="test-category" required>
+                                <option value="">Select Category</option>
+                                <option value="JEE MAIN">JEE MAIN</option>
+                                <option value="JEE ADV">JEE ADV</option>
+                                <option value="DPP">DPP</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="obtained-marks">Obtained Marks *</label>
+                            <input type="number" id="obtained-marks" placeholder="0" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="total-marks">Total Marks *</label>
+                            <input type="number" id="total-marks" placeholder="300" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="test-date">Date *</label>
+                            <input type="date" id="test-date" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-save-test">Save Test</button>
+                </form>
+            </div>
+
+            <!-- Section B: Filter Tabs -->
+            <div class="filter-tabs-container">
+                <button class="filter-tab active" data-filter="all">All</button>
+                <button class="filter-tab" data-filter="JEE MAIN">JEE MAIN</button>
+                <button class="filter-tab" data-filter="JEE ADV">JEE ADV</button>
+                <button class="filter-tab" data-filter="DPP">DPP</button>
+            </div>
+
+            <!-- Section C: Test History List -->
+            <div class="page-card mock-tests-card">
+                <h2 class="section-title">Test History</h2>
+                <div class="test-history-container">
+                    <div id="test-list-empty" class="test-list-empty">
+                        <div class="placeholder-icon">📝</div>
+                        <p>No tests added yet. Add your first mock test above!</p>
+                    </div>
+                    <table id="test-history-table" class="test-history-table hidden">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Score</th>
+                                <th>Percentage</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="test-history-body">
+                            <!-- Test rows will be rendered here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Section D: Trend Chart (SVG) -->
+            <div class="page-card mock-tests-card">
+                <h2 class="section-title">Performance Trend</h2>
+                <div class="chart-container">
+                    <svg id="trend-chart" class="trend-chart" viewBox="0 0 800 300" preserveAspectRatio="xMidYMid meet">
+                        <!-- Chart will be rendered here -->
+                    </svg>
+                    <div id="chart-placeholder" class="chart-placeholder">
+                        <div class="placeholder-icon">📊</div>
+                        <p>Add tests to see trends</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -2604,6 +2934,334 @@
         });
 
         // ============================================
+        // MOCK TESTS MODULE
+        // ============================================
+        
+        let currentFilter = 'all';
+
+        /**
+         * Initialize mock tests page
+         */
+        function initMockTests() {
+            const data = getData();
+            if (!data.mockTests) {
+                data.mockTests = [];
+                saveData(data);
+            }
+            
+            // Set default date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('test-date').value = today;
+            
+            renderMockTests();
+        }
+
+        /**
+         * Add a new test entry
+         * @param {Event} e - Form submit event
+         */
+        function addTest(e) {
+            e.preventDefault();
+            
+            const testName = document.getElementById('test-name').value.trim();
+            const category = document.getElementById('test-category').value;
+            const obtained = parseInt(document.getElementById('obtained-marks').value);
+            const total = parseInt(document.getElementById('total-marks').value);
+            const date = document.getElementById('test-date').value;
+            
+            // Validation
+            let isValid = true;
+            
+            if (!testName) {
+                document.getElementById('test-name').style.borderColor = '#ef4444';
+                document.getElementById('test-name').style.boxShadow = '0 0 10px rgba(239, 68, 68, 0.5)';
+                isValid = false;
+            } else {
+                document.getElementById('test-name').style.borderColor = '';
+                document.getElementById('test-name').style.boxShadow = '';
+            }
+            
+            if (!category) {
+                document.getElementById('test-category').style.borderColor = '#ef4444';
+                document.getElementById('test-category').style.boxShadow = '0 0 10px rgba(239, 68, 68, 0.5)';
+                isValid = false;
+            } else {
+                document.getElementById('test-category').style.borderColor = '';
+                document.getElementById('test-category').style.boxShadow = '';
+            }
+            
+            if (!obtained && obtained !== 0) {
+                document.getElementById('obtained-marks').style.borderColor = '#ef4444';
+                document.getElementById('obtained-marks').style.boxShadow = '0 0 10px rgba(239, 68, 68, 0.5)';
+                isValid = false;
+            } else {
+                document.getElementById('obtained-marks').style.borderColor = '';
+                document.getElementById('obtained-marks').style.boxShadow = '';
+            }
+            
+            if (!total || total <= 0) {
+                document.getElementById('total-marks').style.borderColor = '#ef4444';
+                document.getElementById('total-marks').style.boxShadow = '0 0 10px rgba(239, 68, 68, 0.5)';
+                isValid = false;
+            } else {
+                document.getElementById('total-marks').style.borderColor = '';
+                document.getElementById('total-marks').style.boxShadow = '';
+            }
+            
+            if (!date) {
+                document.getElementById('test-date').style.borderColor = '#ef4444';
+                document.getElementById('test-date').style.boxShadow = '0 0 10px rgba(239, 68, 68, 0.5)';
+                isValid = false;
+            } else {
+                document.getElementById('test-date').style.borderColor = '';
+                document.getElementById('test-date').style.boxShadow = '';
+            }
+            
+            // Validate obtained <= total
+            if (obtained > total) {
+                alert('Obtained marks cannot exceed total marks!');
+                document.getElementById('obtained-marks').style.borderColor = '#ef4444';
+                document.getElementById('obtained-marks').style.boxShadow = '0 0 10px rgba(239, 68, 68, 0.5)';
+                return;
+            }
+            
+            if (!isValid) return;
+            
+            const percentage = ((obtained / total) * 100).toFixed(1);
+            
+            const newTest = {
+                id: Date.now(),
+                name: testName,
+                category: category,
+                obtained: obtained,
+                total: total,
+                date: date,
+                percentage: parseFloat(percentage)
+            };
+            
+            const data = getData();
+            if (!data.mockTests) {
+                data.mockTests = [];
+            }
+            data.mockTests.push(newTest);
+            saveData(data);
+            
+            // Reset form
+            document.getElementById('mock-test-form').reset();
+            document.getElementById('test-date').value = new Date().toISOString().split('T')[0];
+            
+            renderMockTests();
+        }
+
+        /**
+         * Render the test list based on current filter
+         */
+        function renderMockTests() {
+            const data = getData();
+            const tests = data.mockTests || [];
+            
+            // Filter tests
+            const filteredTests = currentFilter === 'all' 
+                ? tests 
+                : tests.filter(t => t.category === currentFilter);
+            
+            // Sort by date descending
+            filteredTests.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            const emptyState = document.getElementById('test-list-empty');
+            const table = document.getElementById('test-history-table');
+            const tbody = document.getElementById('test-history-body');
+            
+            if (filteredTests.length === 0) {
+                emptyState.classList.remove('hidden');
+                table.classList.add('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+                table.classList.remove('hidden');
+                
+                tbody.innerHTML = filteredTests.map(test => {
+                    const percentageClass = getPercentageClass(test.percentage);
+                    return `
+                        <tr>
+                            <td>${formatDate(test.date)}</td>
+                            <td>${escapeHtml(test.name)}</td>
+                            <td>${test.category}</td>
+                            <td>${test.obtained}/${test.total}</td>
+                            <td><span class="score-percentage ${percentageClass}">${test.percentage}%</span></td>
+                            <td><button class="delete-test-btn" onclick="deleteTest(${test.id})">🗑️ Delete</button></td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+            
+            drawChart(filteredTests);
+        }
+
+        /**
+         * Get CSS class based on percentage
+         * @param {number} percentage - Score percentage
+         * @returns {string} CSS class name
+         */
+        function getPercentageClass(percentage) {
+            if (percentage >= 70) return 'percentage-high';
+            if (percentage >= 40) return 'percentage-medium';
+            return 'percentage-low';
+        }
+
+        /**
+         * Format date for display
+         * @param {string} dateStr - ISO date string
+         * @returns {string} Formatted date
+         */
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+
+        /**
+         * Escape HTML to prevent XSS
+         * @param {string} str - String to escape
+         * @returns {string} Escaped string
+         */
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        /**
+         * Delete a test entry
+         * @param {number} id - Test ID to delete
+         */
+        function deleteTest(id) {
+            if (!confirm('Are you sure you want to delete this test?')) return;
+            
+            const data = getData();
+            data.mockTests = data.mockTests.filter(t => t.id !== id);
+            saveData(data);
+            
+            renderMockTests();
+        }
+
+        /**
+         * Draw SVG trend chart
+         * @param {Array} tests - Array of test data
+         */
+        function drawChart(tests) {
+            const svg = document.getElementById('trend-chart');
+            const placeholder = document.getElementById('chart-placeholder');
+            
+            if (tests.length === 0) {
+                svg.classList.add('hidden');
+                placeholder.classList.remove('hidden');
+                return;
+            }
+            
+            svg.classList.remove('hidden');
+            placeholder.classList.add('hidden');
+            
+            // Take last 10 tests or last 30 days
+            const now = new Date();
+            const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+            const recentTests = tests
+                .filter(t => new Date(t.date) >= thirtyDaysAgo)
+                .slice(0, 10);
+            
+            if (recentTests.length === 0) {
+                svg.classList.add('hidden');
+                placeholder.classList.remove('hidden');
+                return;
+            }
+            
+            // Sort by date ascending for chart
+            recentTests.sort((a, b) => new Date(a.date) - new Date(b.date));
+            
+            const width = 800;
+            const height = 300;
+            const padding = { top: 30, right: 30, bottom: 50, left: 50 };
+            const chartWidth = width - padding.left - padding.right;
+            const chartHeight = height - padding.top - padding.bottom;
+            
+            // Calculate Y axis scale
+            const percentages = recentTests.map(t => t.percentage);
+            const maxPercent = Math.max(...percentages, 100);
+            const minPercent = Math.min(...percentages, 0);
+            const yRange = maxPercent - minPercent || 100;
+            
+            // Generate points
+            const points = recentTests.map((test, i) => {
+                const x = padding.left + (i / (recentTests.length - 1)) * chartWidth;
+                const y = padding.top + chartHeight - ((test.percentage - minPercent) / yRange) * chartHeight;
+                return { x, y, ...test };
+            });
+            
+            // Build SVG content
+            let svgContent = '';
+            
+            // Grid lines
+            for (let i = 0; i <= 4; i++) {
+                const y = padding.top + (i / 4) * chartHeight;
+                const value = Math.round(maxPercent - (i / 4) * yRange);
+                svgContent += `<line class="chart-grid" x1="${padding.left}" y1="${y}" x2="${width - padding.right}" y2="${y}" />`;
+                svgContent += `<text class="chart-label" x="${padding.left - 10}" y="${y + 3}" text-anchor="end">${value}%</text>`;
+            }
+            
+            // Axes
+            svgContent += `<line class="chart-axis" x1="${padding.left}" y1="${padding.top}" x2="${padding.left}" y2="${height - padding.bottom}" />`;
+            svgContent += `<line class="chart-axis" x1="${padding.left}" y1="${height - padding.bottom}" x2="${width - padding.right}" y2="${height - padding.bottom}" />`;
+            
+            // Line
+            const linePoints = points.map(p => `${p.x},${p.y}`).join(' ');
+            svgContent += `<polyline class="chart-line" points="${linePoints}" />`;
+            
+            // Data points
+            points.forEach(p => {
+                svgContent += `<circle class="chart-point" cx="${p.x}" cy="${p.y}" r="5" />`;
+            });
+            
+            // X-axis labels (dates)
+            points.forEach((p, i) => {
+                if (i === 0 || i === points.length - 1 || points.length <= 5) {
+                    const dateLabel = new Date(p.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+                    svgContent += `<text class="chart-label" x="${p.x}" y="${height - padding.bottom + 20}" text-anchor="middle">${dateLabel}</text>`;
+                }
+            });
+            
+            svg.innerHTML = svgContent;
+        }
+
+        // Mock Tests Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Form submission
+            const mockTestForm = document.getElementById('mock-test-form');
+            if (mockTestForm) {
+                mockTestForm.addEventListener('submit', addTest);
+            }
+            
+            // Filter tabs
+            const filterTabs = document.querySelectorAll('.filter-tab');
+            filterTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    filterTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.getAttribute('data-filter');
+                    renderMockTests();
+                });
+            });
+            
+            // Input focus handling for validation glow removal
+            ['test-name', 'test-category', 'obtained-marks', 'total-marks', 'test-date'].forEach(id => {
+                const input = document.getElementById(id);
+                if (input) {
+                    input.addEventListener('focus', function() {
+                        this.style.borderColor = '';
+                        this.style.boxShadow = '';
+                    });
+                }
+            });
+        });
+
+        // ============================================
         // INITIALIZATION ON PAGE LOAD
         // ============================================
         
@@ -2625,6 +3283,9 @@
                 
                 // Initialize syllabus page
                 calculateTotals();
+                
+                // Initialize mock tests page
+                initMockTests();
             } else {
                 // No profile, keep onboarding visible
                 onboardingSection.classList.remove('hidden');
