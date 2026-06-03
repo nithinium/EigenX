@@ -53,6 +53,21 @@
             box-sizing: border-box;
         }
 
+        /* Focus visible styles for accessibility */
+        *:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible,
+        select:focus-visible,
+        textarea:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-primary);
@@ -84,6 +99,7 @@
             padding: 1.5rem;
             z-index: 1000;
             transition: background-color 0.3s ease, transform 0.3s ease;
+            will-change: transform;
         }
 
         /* Sidebar Logo */
@@ -110,13 +126,15 @@
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            padding: 0.75rem 1rem;
+            padding: 0.875rem 1rem;
             color: var(--text-secondary);
             text-decoration: none;
             border-radius: 0.5rem;
             transition: all 0.2s ease;
             cursor: pointer;
             border-left: 3px solid transparent;
+            min-height: 44px;
+            will-change: background-color, border-left-color;
         }
 
         .nav-link:hover {
@@ -147,12 +165,14 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0.75rem 1rem;
+            padding: 0.875rem 1rem;
             background-color: var(--bg-tertiary);
             border-radius: 0.5rem;
             cursor: pointer;
             transition: background-color 0.2s ease;
             margin-bottom: 1rem;
+            min-height: 44px;
+            touch-action: manipulation;
         }
 
         .theme-toggle:hover {
@@ -251,9 +271,12 @@
             background-color: var(--sidebar-bg);
             border: 1px solid var(--border-color);
             border-radius: 0.5rem;
-            padding: 0.5rem 0.75rem;
+            padding: 0.75rem;
             cursor: pointer;
             transition: background-color 0.2s ease;
+            min-width: 44px;
+            min-height: 44px;
+            touch-action: manipulation;
         }
 
         .hamburger-menu:hover {
@@ -1764,6 +1787,7 @@
             align-items: center;
             justify-content: space-between;
             transition: all 0.2s ease;
+            will-change: transform, border-color, box-shadow;
         }
 
         .habit-card:hover {
@@ -1835,6 +1859,9 @@
             border-radius: 6px;
             transition: all 0.2s ease;
             font-size: 1.1rem;
+            min-width: 44px;
+            min-height: 44px;
+            touch-action: manipulation;
         }
 
         .habit-delete-btn:hover {
