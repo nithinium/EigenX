@@ -843,6 +843,7 @@
             color: var(--text-primary);
             font-size: 1rem;
             transition: border-color 0.2s ease;
+            min-height: 48px;
         }
 
         .chapter-input:focus {
@@ -861,6 +862,8 @@
             cursor: pointer;
             transition: background-color 0.2s ease, transform 0.1s ease;
             white-space: nowrap;
+            width: auto;
+            min-height: 48px;
         }
 
         .btn-add-chapter:hover {
@@ -1149,6 +1152,11 @@
 
             .add-chapter-container {
                 flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .chapter-input {
+                width: 100%;
             }
 
             .btn-add-chapter {
