@@ -1410,7 +1410,8 @@
             height: 100%;
         }
 
-        .chart-placeholder {
+        /* Default chart-placeholder for absolute positioning in chart containers */
+        .chart-container .chart-placeholder {
             position: absolute;
             top: 0;
             left: 0;
@@ -1745,8 +1746,10 @@
         .habits-add-section {
             display: flex;
             gap: 1rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             align-items: center;
+            position: relative;
+            z-index: 10;
         }
 
         .habits-add-section input {
@@ -1759,12 +1762,16 @@
             color: #f1f5f9;
             font-size: 1rem;
             height: 48px;
+            position: relative;
+            z-index: 10;
         }
 
         .habits-add-section input:focus {
             outline: none;
             border-color: #3b82f6;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            position: relative;
+            z-index: 10;
         }
 
         .habits-add-section .btn-primary {
@@ -1775,6 +1782,14 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .habits-list-container {
+            position: relative;
+            z-index: 5;
+            margin-top: 1.5rem;
         }
 
         .habits-list-container h3,
@@ -1789,6 +1804,24 @@
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1rem;
             margin-bottom: 2rem;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* Empty state placeholder in habits list */
+        .habits-grid .chart-placeholder {
+            grid-column: 1 / -1;
+            height: auto !important;
+            min-height: 150px;
+            padding: 2rem;
+            background-color: rgba(30, 41, 59, 0.5);
+            border-radius: 12px;
+            border: 1px dashed #334155;
+            position: static !important;
+            display: flex !important;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .habit-card {
@@ -1960,12 +1993,13 @@
             white-space: nowrap;
         }
 
-        .chart-placeholder {
+        /* General chart-placeholder for non-grid contexts */
+        .chart-placeholder:not(.habits-grid .chart-placeholder):not(.chart-container .chart-placeholder) {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 200px;
+            min-height: 200px;
             color: #64748b;
             text-align: center;
         }
@@ -2842,7 +2876,7 @@
             <div class="habits-list-container">
                 <h3>Today's Habits</h3>
                 <div id="habits-list" class="habits-grid">
-                    <!-- Habits injected here -->
+                    <!-- Habits injected here via JavaScript -->
                 </div>
             </div>
 
@@ -4806,7 +4840,7 @@
             
             if (habitsData.length === 0) {
                 container.innerHTML = `
-                    <div class="chart-placeholder">
+                    <div class="chart-placeholder" style="grid-column: 1 / -1;">
                         <div class="placeholder-icon">📝</div>
                         <p>No habits added yet. Add your first habit above!</p>
                     </div>
