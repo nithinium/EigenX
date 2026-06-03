@@ -775,6 +775,404 @@
         textarea {
             min-height: 44px;
         }
+
+        /* ============================================
+           SYLLABUS PAGE STYLES
+           ============================================ */
+        
+        .syllabus-section {
+            margin-bottom: 2rem;
+        }
+
+        /* Subject Selection Tiles */
+        .subject-tiles-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .subject-tile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 2rem 1.5rem;
+            background-color: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .subject-tile:hover {
+            transform: scale(1.05);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .subject-tile.active {
+            border-color: var(--accent-color);
+            background-color: rgba(59, 130, 246, 0.1);
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
+        }
+
+        .subject-tile-icon {
+            font-size: 2.5rem;
+        }
+
+        .subject-tile-name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Add Chapter Container */
+        .add-chapter-container {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .chapter-input {
+            flex: 1;
+            padding: 0.875rem 1rem;
+            background-color: var(--bg-tertiary);
+            border: 2px solid var(--border-color);
+            border-radius: 0.5rem;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .chapter-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .btn-add-chapter {
+            padding: 0.875rem 1.5rem;
+            background-color: var(--accent-color);
+            color: #ffffff;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            white-space: nowrap;
+        }
+
+        .btn-add-chapter:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .btn-add-chapter:active {
+            transform: scale(0.98);
+        }
+
+        /* Chapter List */
+        .chapter-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        /* Chapter Tile */
+        .chapter-tile {
+            background-color: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .chapter-tile.weak {
+            border-color: #ef4444;
+        }
+
+        .chapter-tile.strong {
+            border-color: #22c55e;
+        }
+
+        /* Collapsed Chapter Header */
+        .chapter-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.25rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .chapter-header:hover {
+            background-color: var(--bg-tertiary);
+        }
+
+        .chapter-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .chapter-number {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .chapter-badges {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .badge {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-revision {
+            background-color: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+        }
+
+        .badge-question {
+            background-color: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+        }
+
+        .badge-label {
+            font-size: 0.7rem;
+            opacity: 0.8;
+        }
+
+        .badge-value {
+            font-size: 0.9rem;
+        }
+
+        /* Expanded Chapter Content */
+        .chapter-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background-color: var(--bg-tertiary);
+        }
+
+        .chapter-content.expanded {
+            max-height: 300px;
+        }
+
+        .chapter-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            padding: 1.25rem;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .control-label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .counter-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .counter-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem;
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .counter-btn:hover:not(:disabled) {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: #ffffff;
+        }
+
+        .counter-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .counter-input {
+            width: 70px;
+            text-align: center;
+            padding: 0.5rem;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .counter-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        /* Strength Toggle Pill */
+        .strength-toggle-container {
+            padding: 0 1.25rem 1.25rem;
+        }
+
+        .strength-toggle-label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .strength-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.375rem 0.75rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .strength-pill.weak {
+            background-color: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+        }
+
+        .strength-pill.strong {
+            background-color: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+        }
+
+        /* Global Insights */
+        .global-insights-container {
+            background-color: var(--card-bg);
+            border-radius: 1rem;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .global-primary-metric {
+            text-align: center;
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-value {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            text-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .subject-metrics-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .subject-metric-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background-color: var(--bg-tertiary);
+            border-radius: 0.75rem;
+            min-width: 100px;
+        }
+
+        .subject-metric-badge .badge-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+
+        .subject-metric-badge .badge-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .math-badge .badge-value {
+            color: #3b82f6;
+        }
+
+        .physics-badge .badge-value {
+            color: #f59e0b;
+        }
+
+        .chemistry-badge .badge-value {
+            color: #10b981;
+        }
+
+        /* Mobile Responsive for Syllabus */
+        @media (max-width: 768px) {
+            .subject-tiles-container {
+                grid-template-columns: 1fr;
+            }
+
+            .add-chapter-container {
+                flex-direction: column;
+            }
+
+            .btn-add-chapter {
+                width: 100%;
+            }
+
+            .chapter-controls {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .subject-metrics-container {
+                gap: 0.5rem;
+            }
+
+            .subject-metric-badge {
+                min-width: 80px;
+                padding: 0.75rem 1rem;
+            }
+
+            .metric-value {
+                font-size: 2.25rem;
+            }
+        }
     </style>
 </head>
 <body class="dark">
@@ -1005,14 +1403,72 @@
         <!-- Syllabus Page -->
         <div id="page-syllabus" class="page-content page hidden">
             <div class="page-header">
-                <h1 class="page-title">Syllabus</h1>
-                <p class="page-subtitle">Complete JEE Main & Advanced syllabus overview</p>
+                <h1 class="page-title">Syllabus Tracker</h1>
+                <p class="page-subtitle">Track your chapter-wise progress across all subjects</p>
             </div>
-            <div class="page-card">
-                <div class="placeholder-content">
-                    <div class="placeholder-icon">📚</div>
-                    <h2>Syllabus Tracker</h2>
-                    <p>Monitor your progress through the complete JEE syllabus.</p>
+
+            <!-- Section A: Subject Selection Tiles -->
+            <div class="syllabus-section">
+                <h2 class="section-title">Select Subject</h2>
+                <div class="subject-tiles-container">
+                    <div class="subject-tile" data-subject="math" onclick="selectSyllabusSubject('math')">
+                        <span class="subject-tile-icon">📐</span>
+                        <span class="subject-tile-name">Mathematics</span>
+                    </div>
+                    <div class="subject-tile" data-subject="physics" onclick="selectSyllabusSubject('physics')">
+                        <span class="subject-tile-icon">⚡</span>
+                        <span class="subject-tile-name">Physics</span>
+                    </div>
+                    <div class="subject-tile" data-subject="chemistry" onclick="selectSyllabusSubject('chemistry')">
+                        <span class="subject-tile-icon">🧪</span>
+                        <span class="subject-tile-name">Chemistry</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section B: Chapter Management (Hidden until subject selected) -->
+            <div id="syllabus-chapter-section" class="syllabus-section hidden">
+                <h2 class="section-title">
+                    <span id="selected-subject-title">Chapters</span>
+                </h2>
+                
+                <!-- Add Chapter Input -->
+                <div class="add-chapter-container">
+                    <input type="text" id="chapter-name-input" placeholder="Enter chapter name..." class="chapter-input">
+                    <button class="btn btn-add-chapter" onclick="addChapter()">Add Chapter</button>
+                </div>
+
+                <!-- Chapter List -->
+                <div id="chapter-list" class="chapter-list">
+                    <!-- Chapters will be rendered here -->
+                </div>
+            </div>
+
+            <!-- Section C: Global Insights (Always visible at bottom) -->
+            <div class="syllabus-section">
+                <h2 class="section-title">Overall Progress</h2>
+                <div class="global-insights-container">
+                    <!-- Primary Metric: Total Questions Solved -->
+                    <div class="global-primary-metric">
+                        <div class="metric-label">Total Questions Solved</div>
+                        <div class="metric-value" id="total-questions-display">0</div>
+                    </div>
+                    
+                    <!-- Secondary Metrics: Subject-wise breakdown -->
+                    <div class="subject-metrics-container">
+                        <div class="subject-metric-badge math-badge">
+                            <span class="badge-label">Math</span>
+                            <span class="badge-value" id="math-questions-display">0</span>
+                        </div>
+                        <div class="subject-metric-badge physics-badge">
+                            <span class="badge-label">Physics</span>
+                            <span class="badge-value" id="physics-questions-display">0</span>
+                        </div>
+                        <div class="subject-metric-badge chemistry-badge">
+                            <span class="badge-label">Chemistry</span>
+                            <span class="badge-value" id="chemistry-questions-display">0</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1733,6 +2189,360 @@
         }
 
         // ============================================
+        // SYLLABUS PAGE LOGIC
+        // ============================================
+
+        let currentSyllabusSubject = null;
+
+        /**
+         * Get syllabus data from localStorage
+         */
+        function getSyllabusData() {
+            const data = getData();
+            if (!data.syllabus) {
+                data.syllabus = {
+                    math: [],
+                    physics: [],
+                    chemistry: []
+                };
+                saveData(data);
+            }
+            return data.syllabus;
+        }
+
+        /**
+         * Save syllabus data to localStorage
+         */
+        function saveSyllabusData(syllabus) {
+            const data = getData();
+            data.syllabus = syllabus;
+            saveData(data);
+        }
+
+        /**
+         * Select a subject and show chapter section
+         */
+        function selectSyllabusSubject(subject) {
+            currentSyllabusSubject = subject;
+            
+            // Update active state on tiles
+            document.querySelectorAll('.subject-tile').forEach(tile => {
+                tile.classList.remove('active');
+                if (tile.getAttribute('data-subject') === subject) {
+                    tile.classList.add('active');
+                }
+            });
+
+            // Show chapter section
+            const chapterSection = document.getElementById('syllabus-chapter-section');
+            chapterSection.classList.remove('hidden');
+
+            // Update subject title
+            const subjectNames = {
+                math: 'Mathematics',
+                physics: 'Physics',
+                chemistry: 'Chemistry'
+            };
+            document.getElementById('selected-subject-title').textContent = subjectNames[subject] + ' - Chapters';
+
+            // Render chapters for selected subject
+            renderChapters();
+        }
+
+        /**
+         * Render chapters for current subject
+         */
+        function renderChapters() {
+            if (!currentSyllabusSubject) return;
+
+            const syllabus = getSyllabusData();
+            const chapters = syllabus[currentSyllabusSubject];
+            const chapterList = document.getElementById('chapter-list');
+
+            if (!chapters || chapters.length === 0) {
+                chapterList.innerHTML = `
+                    <div class="task-list-empty">
+                        <div class="task-list-empty-icon">📖</div>
+                        <p>No chapters added yet. Add your first chapter!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            chapterList.innerHTML = chapters.map((chapter, index) => {
+                const strengthClass = chapter.strength === 'strong' ? 'strong' : 'weak';
+                const isExpanded = chapter.expanded ? 'expanded' : '';
+                
+                return `
+                    <div class="chapter-tile ${strengthClass}" data-chapter-id="${chapter.id}">
+                        <!-- Collapsed Header -->
+                        <div class="chapter-header" onclick="toggleChapterExpand('${chapter.id}')">
+                            <div class="chapter-title">
+                                <span class="chapter-number">#${chapter.number}</span>
+                                <span>${escapeHtml(chapter.name)}</span>
+                            </div>
+                            <div class="chapter-badges">
+                                <div class="badge badge-revision">
+                                    <span class="badge-label">R:</span>
+                                    <span class="badge-value">${chapter.revisions}</span>
+                                </div>
+                                <div class="badge badge-question">
+                                    <span class="badge-label">Q:</span>
+                                    <span class="badge-value">${chapter.questions}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Expanded Content -->
+                        <div class="chapter-content ${isExpanded}" id="chapter-content-${chapter.id}">
+                            <div class="chapter-controls">
+                                <!-- Revision Counter -->
+                                <div class="control-group">
+                                    <label class="control-label">Revisions Completed</label>
+                                    <div class="counter-wrapper">
+                                        <button class="counter-btn" onclick="updateRevision('${chapter.id}', -1)" ${chapter.revisions <= 0 ? 'disabled' : ''}>−</button>
+                                        <input type="number" 
+                                               class="counter-input" 
+                                               value="${chapter.revisions}" 
+                                               min="0"
+                                               onchange="updateRevisionDirect('${chapter.id}', this.value)">
+                                        <button class="counter-btn" onclick="updateRevision('${chapter.id}', 1)">+</button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Questions Counter -->
+                                <div class="control-group">
+                                    <label class="control-label">Questions Solved</label>
+                                    <div class="counter-wrapper">
+                                        <button class="counter-btn" onclick="updateQuestions('${chapter.id}', -1)" ${chapter.questions <= 0 ? 'disabled' : ''}>−</button>
+                                        <input type="number" 
+                                               class="counter-input" 
+                                               value="${chapter.questions}" 
+                                               min="0"
+                                               onchange="updateQuestionsDirect('${chapter.id}', this.value)">
+                                        <button class="counter-btn" onclick="updateQuestions('${chapter.id}', 1)">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Strength Toggle -->
+                            <div class="strength-toggle-container">
+                                <label class="strength-toggle-label">Chapter Strength</label>
+                                <span class="strength-pill ${strengthClass}" onclick="toggleStrength('${chapter.id}')">
+                                    ${chapter.strength === 'strong' ? '🟢 Strong' : '🔴 Weak'}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        /**
+         * Add a new chapter
+         */
+        function addChapter() {
+            const input = document.getElementById('chapter-name-input');
+            const name = input.value.trim();
+
+            if (!name) {
+                alert('Please enter a chapter name.');
+                return;
+            }
+
+            if (!currentSyllabusSubject) {
+                alert('Please select a subject first.');
+                return;
+            }
+
+            const syllabus = getSyllabusData();
+            const chapters = syllabus[currentSyllabusSubject];
+
+            // Calculate next chapter number
+            const nextNumber = chapters.length > 0 
+                ? Math.max(...chapters.map(c => c.number)) + 1 
+                : 1;
+
+            const newChapter = {
+                id: Date.now().toString(),
+                number: nextNumber,
+                name: name,
+                revisions: 0,
+                questions: 0,
+                strength: 'weak',
+                expanded: false
+            };
+
+            chapters.push(newChapter);
+            saveSyllabusData(syllabus);
+
+            // Clear input
+            input.value = '';
+
+            // Re-render
+            renderChapters();
+            calculateTotals();
+        }
+
+        /**
+         * Toggle chapter expand/collapse
+         */
+        function toggleChapterExpand(chapterId) {
+            const syllabus = getSyllabusData();
+            const chapters = syllabus[currentSyllabusSubject];
+            const chapter = chapters.find(c => c.id === chapterId);
+
+            if (chapter) {
+                chapter.expanded = !chapter.expanded;
+                saveSyllabusData(syllabus);
+                renderChapters();
+            }
+        }
+
+        /**
+         * Update revision count with +/- buttons
+         */
+        function updateRevision(chapterId, delta) {
+            const syllabus = getSyllabusData();
+            const chapters = syllabus[currentSyllabusSubject];
+            const chapter = chapters.find(c => c.id === chapterId);
+
+            if (chapter) {
+                const newValue = chapter.revisions + delta;
+                if (newValue >= 0) {
+                    chapter.revisions = newValue;
+                    saveSyllabusData(syllabus);
+                    renderChapters();
+                    calculateTotals();
+                }
+            }
+        }
+
+        /**
+         * Update revision count directly from input
+         */
+        function updateRevisionDirect(chapterId, value) {
+            const numValue = parseInt(value, 10);
+            if (isNaN(numValue) || numValue < 0) {
+                alert('Please enter a valid non-negative number.');
+                renderChapters();
+                return;
+            }
+
+            const syllabus = getSyllabusData();
+            const chapters = syllabus[currentSyllabusSubject];
+            const chapter = chapters.find(c => c.id === chapterId);
+
+            if (chapter) {
+                chapter.revisions = numValue;
+                saveSyllabusData(syllabus);
+                renderChapters();
+                calculateTotals();
+            }
+        }
+
+        /**
+         * Update questions count with +/- buttons
+         */
+        function updateQuestions(chapterId, delta) {
+            const syllabus = getSyllabusData();
+            const chapters = syllabus[currentSyllabusSubject];
+            const chapter = chapters.find(c => c.id === chapterId);
+
+            if (chapter) {
+                const newValue = chapter.questions + delta;
+                if (newValue >= 0) {
+                    chapter.questions = newValue;
+                    saveSyllabusData(syllabus);
+                    renderChapters();
+                    calculateTotals();
+                }
+            }
+        }
+
+        /**
+         * Update questions count directly from input
+         */
+        function updateQuestionsDirect(chapterId, value) {
+            const numValue = parseInt(value, 10);
+            if (isNaN(numValue) || numValue < 0) {
+                alert('Please enter a valid non-negative number.');
+                renderChapters();
+                return;
+            }
+
+            const syllabus = getSyllabusData();
+            const chapters = syllabus[currentSyllabusSubject];
+            const chapter = chapters.find(c => c.id === chapterId);
+
+            if (chapter) {
+                chapter.questions = numValue;
+                saveSyllabusData(syllabus);
+                renderChapters();
+                calculateTotals();
+            }
+        }
+
+        /**
+         * Toggle chapter strength between weak and strong
+         */
+        function toggleStrength(chapterId) {
+            const syllabus = getSyllabusData();
+            const chapters = syllabus[currentSyllabusSubject];
+            const chapter = chapters.find(c => c.id === chapterId);
+
+            if (chapter) {
+                chapter.strength = chapter.strength === 'weak' ? 'strong' : 'weak';
+                saveSyllabusData(syllabus);
+                renderChapters();
+            }
+        }
+
+        /**
+         * Calculate total questions across all subjects
+         */
+        function calculateTotals() {
+            const syllabus = getSyllabusData();
+            
+            let mathTotal = 0;
+            let physicsTotal = 0;
+            let chemistryTotal = 0;
+
+            if (syllabus.math) {
+                mathTotal = syllabus.math.reduce((sum, ch) => sum + (ch.questions || 0), 0);
+            }
+            if (syllabus.physics) {
+                physicsTotal = syllabus.physics.reduce((sum, ch) => sum + (ch.questions || 0), 0);
+            }
+            if (syllabus.chemistry) {
+                chemistryTotal = syllabus.chemistry.reduce((sum, ch) => sum + (ch.questions || 0), 0);
+            }
+
+            const grandTotal = mathTotal + physicsTotal + chemistryTotal;
+
+            // Update UI
+            document.getElementById('total-questions-display').textContent = grandTotal;
+            document.getElementById('math-questions-display').textContent = mathTotal;
+            document.getElementById('physics-questions-display').textContent = physicsTotal;
+            document.getElementById('chemistry-questions-display').textContent = chemistryTotal;
+        }
+
+        // Allow Enter key to add chapter
+        document.addEventListener('DOMContentLoaded', function() {
+            const chapterInput = document.getElementById('chapter-name-input');
+            if (chapterInput) {
+                chapterInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        addChapter();
+                    }
+                });
+            }
+
+            // Initialize totals on page load
+            calculateTotals();
+        });
+
+        // ============================================
         // INITIALIZATION ON PAGE LOAD
         // ============================================
         
@@ -1751,6 +2561,9 @@
                 // Initialize tasks page
                 renderTasks();
                 updateProgress();
+                
+                // Initialize syllabus page
+                calculateTotals();
             } else {
                 // No profile, keep onboarding visible
                 onboardingSection.classList.remove('hidden');
