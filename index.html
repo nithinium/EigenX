@@ -468,6 +468,189 @@
         }
 
         /* ============================================
+           DASHBOARD CONSISTENCY CHART STYLES
+           ============================================ */
+        .dashboard-consistency-card {
+            margin-bottom: 1.5rem;
+        }
+        
+        .consistency-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        #consistency-chart-container {
+            position: relative;
+            min-height: 250px;
+            width: 100%;
+        }
+        
+        .consistency-chart-svg {
+            width: 100%;
+            height: 250px;
+        }
+        
+        .consistency-bar {
+            transition: opacity 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .consistency-bar:hover {
+            opacity: 0.8;
+        }
+        
+        .consistency-tooltip {
+            position: absolute;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            font-size: 0.8rem;
+            z-index: 100;
+            pointer-events: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            max-width: 250px;
+        }
+        
+        .consistency-tooltip h4 {
+            margin-bottom: 0.5rem;
+            color: var(--accent-color);
+            font-size: 0.85rem;
+        }
+        
+        .consistency-tooltip-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.25rem;
+        }
+        
+        .consistency-tooltip-label {
+            color: var(--text-secondary);
+        }
+        
+        .consistency-tooltip-value {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* ============================================
+           DASHBOARD TASKS QUICK ACCESS STYLES
+           ============================================ */
+        .dashboard-tasks-card {
+            margin-bottom: 1.5rem;
+        }
+        
+        .subject-filter-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-tab-btn {
+            padding: 0.5rem 1rem;
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .filter-tab-btn:hover {
+            background-color: var(--border-color);
+            color: var(--text-primary);
+        }
+        
+        .filter-tab-btn.active {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: #ffffff;
+        }
+        
+        .dashboard-tasks-grid {
+            display: grid;
+            gap: 0.75rem;
+        }
+        
+        .dashboard-task-card {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            background-color: var(--bg-tertiary);
+            border-radius: 0.5rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+        }
+        
+        .dashboard-task-card:hover {
+            border-color: var(--accent-color);
+        }
+        
+        .dashboard-task-card.completed {
+            opacity: 0.6;
+        }
+        
+        .dashboard-task-card.completed .task-name-display {
+            text-decoration: line-through;
+        }
+        
+        .dashboard-task-subject-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            min-width: 70px;
+            text-align: center;
+        }
+        
+        .badge-math {
+            background-color: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+            border: 1px solid #3b82f6;
+        }
+        
+        .badge-physics {
+            background-color: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border: 1px solid #10b981;
+        }
+        
+        .badge-chemistry {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+            border: 1px solid #f59e0b;
+        }
+        
+        .task-name-display {
+            flex: 1;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+        
+        .dashboard-task-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--accent-color);
+        }
+        
+        .dashboard-empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+        }
+        
+        .dashboard-empty-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* ============================================
            RESPONSIVE ADJUSTMENTS
            ============================================ */
         @media (max-width: 768px) {
@@ -1410,7 +1593,8 @@
             height: 100%;
         }
 
-        .chart-placeholder {
+        /* Default chart-placeholder for absolute positioning in chart containers */
+        .chart-container .chart-placeholder {
             position: absolute;
             top: 0;
             left: 0;
@@ -1745,8 +1929,10 @@
         .habits-add-section {
             display: flex;
             gap: 1rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             align-items: center;
+            position: relative;
+            z-index: 10;
         }
 
         .habits-add-section input {
@@ -1759,12 +1945,16 @@
             color: #f1f5f9;
             font-size: 1rem;
             height: 48px;
+            position: relative;
+            z-index: 10;
         }
 
         .habits-add-section input:focus {
             outline: none;
             border-color: #3b82f6;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            position: relative;
+            z-index: 10;
         }
 
         .habits-add-section .btn-primary {
@@ -1775,6 +1965,14 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .habits-list-container {
+            position: relative;
+            z-index: 5;
+            margin-top: 1.5rem;
         }
 
         .habits-list-container h3,
@@ -1789,6 +1987,24 @@
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1rem;
             margin-bottom: 2rem;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* Empty state placeholder in habits list */
+        .habits-grid .chart-placeholder {
+            grid-column: 1 / -1;
+            height: auto !important;
+            min-height: 150px;
+            padding: 2rem;
+            background-color: rgba(30, 41, 59, 0.5);
+            border-radius: 12px;
+            border: 1px dashed #334155;
+            position: static !important;
+            display: flex !important;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .habit-card {
@@ -1960,12 +2176,13 @@
             white-space: nowrap;
         }
 
-        .chart-placeholder {
+        /* General chart-placeholder for non-grid contexts */
+        .chart-placeholder:not(.habits-grid .chart-placeholder):not(.chart-container .chart-placeholder) {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 200px;
+            min-height: 200px;
             color: #64748b;
             text-align: center;
         }
@@ -2256,6 +2473,12 @@
                     color: black;
                     padding: 20px;
                     font-family: Arial, sans-serif;
+                    display: block !important;
+                }
+                
+                /* Override .hidden class for print area during printing */
+                #print-area.hidden {
+                    display: block !important;
                 }
                 
                 .print-report {
@@ -2425,11 +2648,32 @@
                 <h1 class="page-title">Welcome to EigenX</h1>
                 <p class="page-subtitle">Your personal JEE exam preparation tracker</p>
             </div>
-            <div class="page-card">
-                <div class="placeholder-content">
-                    <div class="placeholder-icon">🏠</div>
-                    <h2>Home Dashboard</h2>
-                    <p>Track your progress, manage tasks, and stay on top of your JEE preparation journey.</p>
+            
+            <!-- FEATURE 1: Consistency Graph (Last 30 Days) -->
+            <div class="page-card dashboard-consistency-card">
+                <h2 class="section-title">📊 Consistency Tracker (Last 30 Days)</h2>
+                <p class="consistency-description">Daily consistency score based on tasks completed, study hours, and questions solved</p>
+                <div id="consistency-chart-container" class="chart-container">
+                    <div class="chart-placeholder">Start tracking your progress to see consistency data</div>
+                </div>
+                <div id="consistency-tooltip" class="consistency-tooltip hidden"></div>
+            </div>
+            
+            <!-- FEATURE 1: Today's Pending Tasks Quick Access -->
+            <div class="page-card dashboard-tasks-card">
+                <h2 class="section-title">✅ Today's Pending Tasks</h2>
+                
+                <!-- Subject Filter Tabs -->
+                <div class="subject-filter-tabs">
+                    <button class="filter-tab-btn active" data-filter="all">All</button>
+                    <button class="filter-tab-btn" data-filter="math">Mathematics</button>
+                    <button class="filter-tab-btn" data-filter="physics">Physics</button>
+                    <button class="filter-tab-btn" data-filter="chemistry">Chemistry</button>
+                </div>
+                
+                <!-- Tasks List -->
+                <div id="dashboard-tasks-list" class="dashboard-tasks-grid">
+                    <!-- Tasks injected here via JavaScript -->
                 </div>
             </div>
         </div>
@@ -2836,7 +3080,7 @@
             <div class="habits-list-container">
                 <h3>Today's Habits</h3>
                 <div id="habits-list" class="habits-grid">
-                    <!-- Habits injected here -->
+                    <!-- Habits injected here via JavaScript -->
                 </div>
             </div>
 
@@ -3460,6 +3704,9 @@
                     saveTasks(tasks);
                     renderTasks();
                     updateProgress();
+                    // FEATURE 1: Update dashboard consistency graph and tasks list
+                    renderDashboardConsistencyChart();
+                    renderDashboardTasksList();
                 }
             }
         }
@@ -4800,7 +5047,7 @@
             
             if (habitsData.length === 0) {
                 container.innerHTML = `
-                    <div class="chart-placeholder">
+                    <div class="chart-placeholder" style="grid-column: 1 / -1;">
                         <div class="placeholder-icon">📝</div>
                         <p>No habits added yet. Add your first habit above!</p>
                     </div>
@@ -4995,8 +5242,22 @@
             let fromDate, toDate;
             
             if (isCustom) {
-                fromDate = new Date(document.getElementById('report-date-from').value);
-                toDate = new Date(document.getElementById('report-date-to').value);
+                const fromVal = document.getElementById('report-date-from').value;
+                const toVal = document.getElementById('report-date-to').value;
+                
+                if (!fromVal || !toVal) {
+                    alert('Please select both start and end dates.');
+                    return;
+                }
+                
+                fromDate = new Date(fromVal);
+                toDate = new Date(toVal);
+                
+                // Validate date range
+                if (fromDate > toDate) {
+                    alert('Start date cannot be after end date.');
+                    return;
+                }
             } else {
                 toDate = new Date();
                 fromDate = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
@@ -5007,6 +5268,7 @@
             
             // Filter data by date range
             const filteredTests = (data.mockTests || []).filter(t => {
+                if (!t.date) return false;
                 const testDate = new Date(t.date);
                 return testDate >= fromDate && testDate <= toDate;
             });
@@ -5034,8 +5296,11 @@
             }
             
             const avgPercentage = filteredTests.length > 0 
-                ? (filteredTests.reduce((sum, t) => sum + t.percentage, 0) / filteredTests.length).toFixed(1)
+                ? (filteredTests.reduce((sum, t) => sum + (t.percentage || 0), 0) / filteredTests.length).toFixed(1)
                 : 0;
+            
+            // Check if there's any data to display
+            const hasData = totalHours > 0 || totalQuestions > 0 || filteredTests.length > 0;
             
             // Generate report HTML
             const reportHtml = `
@@ -5049,7 +5314,7 @@
                         <h2>Student Profile</h2>
                         <p><strong>Name:</strong> ${profile.name || 'N/A'}</p>
                         <p><strong>Gender:</strong> ${profile.gender || 'N/A'}</p>
-                        <p><strong>Bio:</strong> ${profile.bio || 'N/A'}</p>
+                        <p><strong>Bio:</strong> ${profile.bio || 'No bio provided'}</p>
                     </div>
                     
                     <div class="print-section">
@@ -5057,6 +5322,7 @@
                         <p>${fromDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} - ${toDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
                     </div>
                     
+                    ${hasData ? `
                     <div class="print-section">
                         <h2>Summary Statistics</h2>
                         <table class="print-table">
@@ -5066,6 +5332,7 @@
                             <tr><td>Average Score</td><td>${avgPercentage}%</td></tr>
                         </table>
                     </div>
+                    ` : '<div class="print-section"><p>No data available for the selected period.</p></div>'}
                     
                     ${filteredTests.length > 0 ? `
                     <div class="print-section">
@@ -5087,7 +5354,7 @@
                             </tbody>
                         </table>
                     </div>
-                    ` : '<div class="print-section"><p>No mock tests in selected period.</p></div>'}
+                    ` : (hasData ? '' : '')}
                     
                     <div class="print-footer">
                         <p>Generated by EigenX on ${new Date().toLocaleDateString()}</p>
@@ -5098,10 +5365,10 @@
             document.getElementById('print-area').innerHTML = reportHtml;
             closeReportModal();
             
-            // Trigger print
+            // Trigger print after a short delay to ensure DOM is updated
             setTimeout(() => {
                 window.print();
-            }, 100);
+            }, 500);
         }
 
         // ============================================
