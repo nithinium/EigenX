@@ -1438,6 +1438,286 @@
             font-size: 10px;
         }
 
+        /* ============================================
+           STUDY TIMER PAGE STYLES
+           ============================================ */
+        
+        .timer-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .timer-display-panel {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .timer-ring-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+        }
+
+        .timer-ring-svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .timer-ring-bg {
+            fill: none;
+            stroke: var(--bg-tertiary);
+            stroke-width: 8;
+        }
+
+        .timer-ring-progress {
+            fill: none;
+            stroke-width: 8;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.5s ease;
+            filter: drop-shadow(0 0 8px currentColor);
+        }
+
+        .timer-ring-progress.male-mode {
+            stroke: #3b82f6;
+            color: #3b82f6;
+        }
+
+        .timer-ring-progress.female-mode {
+            stroke: #ef4444;
+            color: #ef4444;
+        }
+
+        .timer-ring-progress.pulsing {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                filter: drop-shadow(0 0 8px currentColor);
+                opacity: 0.7;
+            }
+            50% {
+                filter: drop-shadow(0 0 20px currentColor);
+                opacity: 1;
+            }
+        }
+
+        .timer-display {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+        }
+
+        .timer-mode-label {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .timer-controls-panel {
+            background-color: var(--bg-secondary);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .mode-options {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .mode-options .radio-label {
+            padding: 0.5rem 1rem;
+            background-color: var(--bg-tertiary);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .mode-options .radio-label:hover {
+            background-color: var(--border-color);
+        }
+
+        .mode-options .radio-label input[type="radio"] {
+            accent-color: var(--accent-color);
+            margin-right: 0.5rem;
+        }
+
+        .mode-options .radio-label input[type="radio"]:checked + span {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .timer-buttons {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .timer-buttons .btn {
+            flex: 1;
+            padding: 0.75rem 1rem;
+        }
+
+        .btn-start {
+            background-color: #10b981;
+        }
+
+        .btn-start:hover {
+            background-color: #059669;
+        }
+
+        .btn-pause {
+            background-color: #f59e0b;
+        }
+
+        .btn-pause:hover {
+            background-color: #d97706;
+        }
+
+        .btn-stop {
+            background-color: #ef4444;
+        }
+
+        .btn-stop:hover {
+            background-color: #dc2626;
+        }
+
+        .manual-inputs {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .manual-inputs .form-group {
+            margin-bottom: 0;
+        }
+
+        .manual-inputs input[type="number"] {
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .session-stats {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .study-time-display {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+
+        .timer-sessions-card {
+            background-color: var(--card-bg);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .sessions-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .session-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background-color: var(--bg-tertiary);
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            transition: background-color 0.2s ease;
+        }
+
+        .session-item:hover {
+            background-color: var(--border-color);
+        }
+
+        .session-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .session-subject {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .session-meta {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .session-duration {
+            font-weight: 600;
+            color: var(--accent-color);
+            font-family: 'Courier New', monospace;
+        }
+
+        .session-delete-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            transition: all 0.2s ease;
+        }
+
+        .session-delete-btn:hover {
+            color: #ef4444;
+            background-color: rgba(239, 68, 68, 0.1);
+        }
+
+        /* Mobile Responsive for Timer */
+        @media (max-width: 768px) {
+            .timer-container {
+                grid-template-columns: 1fr;
+            }
+
+            .timer-ring-container {
+                width: 80vw;
+                max-width: 280px;
+                height: 80vw;
+                max-height: 280px;
+            }
+
+            .timer-display {
+                font-size: 2rem;
+            }
+
+            .manual-inputs {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .timer-buttons {
+                flex-direction: column;
+            }
+        }
+
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .form-row {
@@ -1866,11 +2146,97 @@
                 <h1 class="page-title">Study Timer</h1>
                 <p class="page-subtitle">Focus timer for productive study sessions</p>
             </div>
-            <div class="page-card">
-                <div class="placeholder-content">
-                    <div class="placeholder-icon">⏱️</div>
-                    <h2>Study Timer</h2>
-                    <p>Use Pomodoro technique and track your study hours.</p>
+            
+            <div class="timer-container">
+                <!-- Left Panel: Circular Timer Display -->
+                <div class="timer-display-panel">
+                    <div class="timer-ring-container">
+                        <svg class="timer-ring-svg" viewBox="0 0 200 200">
+                            <!-- Background circle -->
+                            <circle class="timer-ring-bg" cx="100" cy="100" r="80" />
+                            <!-- Progress ring -->
+                            <circle class="timer-ring-progress" cx="100" cy="100" r="80" 
+                                    stroke-dasharray="502.65" stroke-dashoffset="0" />
+                        </svg>
+                        <div class="timer-display" id="timer-display">00:00:00</div>
+                    </div>
+                    <div class="timer-mode-label" id="timer-mode-label">Timer Mode</div>
+                </div>
+                
+                <!-- Right Panel: Controls -->
+                <div class="timer-controls-panel">
+                    <!-- Subject Selector -->
+                    <div class="form-group">
+                        <label for="timer-subject">Subject</label>
+                        <select id="timer-subject">
+                            <option value="Math">Math</option>
+                            <option value="Physics">Physics</option>
+                            <option value="Chemistry">Chemistry</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Mode Selector -->
+                    <div class="form-group">
+                        <label>Mode</label>
+                        <div class="mode-options">
+                            <label class="radio-label">
+                                <input type="radio" name="timer-mode" value="timer" checked>
+                                <span>Timer</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="timer-mode" value="pomodoro">
+                                <span>Pomodoro</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="timer-mode" value="manual">
+                                <span>Manual Log</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Timer/Pomodoro Controls -->
+                    <div id="timer-action-controls">
+                        <div class="timer-buttons">
+                            <button class="btn btn-start" id="btn-start-timer">Start</button>
+                            <button class="btn btn-pause hidden" id="btn-pause-timer">Pause</button>
+                            <button class="btn btn-stop" id="btn-stop-timer">Stop</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Manual Log Controls -->
+                    <div id="manual-log-controls" class="hidden">
+                        <div class="manual-inputs">
+                            <div class="form-group">
+                                <label for="manual-hours">Hours</label>
+                                <input type="number" id="manual-hours" min="0" max="23" value="0" placeholder="00">
+                            </div>
+                            <div class="form-group">
+                                <label for="manual-minutes">Minutes</label>
+                                <input type="number" id="manual-minutes" min="0" max="59" value="0" placeholder="00">
+                            </div>
+                            <div class="form-group">
+                                <label for="manual-seconds">Seconds</label>
+                                <input type="number" id="manual-seconds" min="0" max="59" value="0" placeholder="00">
+                            </div>
+                        </div>
+                        <button class="btn" id="btn-log-session">Log Session</button>
+                    </div>
+                    
+                    <!-- Session Stats -->
+                    <div class="session-stats">
+                        <h3 class="section-title">Today's Study Time</h3>
+                        <div class="study-time-display" id="today-study-time">0h 0m</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Sessions Log -->
+            <div class="timer-sessions-card">
+                <h3 class="section-title">Recent Sessions</h3>
+                <div class="sessions-list" id="sessions-list">
+                    <div class="placeholder-content">
+                        <p>No sessions logged yet.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -3247,6 +3613,397 @@
         });
 
         // ============================================
+        // STUDY TIMER MODULE
+        // ============================================
+        
+        let timerIntervalId = null;
+        let timerSeconds = 0;
+        let timerRunning = false;
+        let timerMode = 'timer'; // 'timer', 'pomodoro', 'manual'
+        const POMODORO_DEFAULT = 25 * 60; // 25 minutes in seconds
+        
+        // Timer ring circumference: 2 * PI * 80 ≈ 502.65
+        const RING_CIRCUMFERENCE = 502.65;
+        
+        function initTimerModule() {
+            // Load saved timer state
+            loadTimerState();
+            
+            // Set ring color based on profile gender
+            const data = getData();
+            const ringProgress = document.querySelector('.timer-ring-progress');
+            if (data.profile && data.profile.gender === 'female') {
+                ringProgress.classList.add('female-mode');
+                ringProgress.classList.remove('male-mode');
+            } else {
+                ringProgress.classList.add('male-mode');
+                ringProgress.classList.remove('female-mode');
+            }
+            
+            // Mode radio buttons
+            const modeRadios = document.querySelectorAll('input[name="timer-mode"]');
+            modeRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    timerMode = this.value;
+                    switchTimerMode(timerMode);
+                });
+            });
+            
+            // Action buttons
+            document.getElementById('btn-start-timer').addEventListener('click', startTimer);
+            document.getElementById('btn-pause-timer').addEventListener('click', pauseTimer);
+            document.getElementById('btn-stop-timer').addEventListener('click', stopTimer);
+            document.getElementById('btn-log-session').addEventListener('click', logManualSession);
+            
+            // Initial setup
+            switchTimerMode(timerMode);
+            updateTimerDisplay();
+            renderSessionsList();
+            updateTodayStudyTime();
+        }
+        
+        function loadTimerState() {
+            const data = getData();
+            if (data.activeTimer) {
+                timerSeconds = data.activeTimer.seconds || 0;
+                timerRunning = data.activeTimer.running || false;
+                timerMode = data.activeTimer.mode || 'timer';
+                
+                // Set the correct radio button
+                const radio = document.querySelector(`input[name="timer-mode"][value="${timerMode}"]`);
+                if (radio) radio.checked = true;
+                
+                // Resume timer if it was running
+                if (timerRunning) {
+                    resumeTimerFromState();
+                }
+            }
+        }
+        
+        function saveTimerState() {
+            const data = getData();
+            data.activeTimer = {
+                seconds: timerSeconds,
+                running: timerRunning,
+                mode: timerMode,
+                lastUpdate: Date.now()
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        }
+        
+        function resumeTimerFromState() {
+            if (timerMode === 'manual') return;
+            
+            const targetSeconds = timerMode === 'pomodoro' ? POMODORO_DEFAULT : Infinity;
+            
+            timerIntervalId = setInterval(() => {
+                if (timerMode === 'timer') {
+                    timerSeconds++;
+                } else if (timerMode === 'pomodoro') {
+                    timerSeconds--;
+                    if (timerSeconds <= 0) {
+                        timerSeconds = 0;
+                        stopTimer();
+                        alert('Pomodoro session completed!');
+                    }
+                }
+                updateTimerDisplay();
+                updateRing();
+                saveTimerState();
+            }, 1000);
+            
+            updateButtonStates();
+        }
+        
+        function switchTimerMode(mode) {
+            timerMode = mode;
+            
+            const actionControls = document.getElementById('timer-action-controls');
+            const manualControls = document.getElementById('manual-log-controls');
+            const ringProgress = document.querySelector('.timer-ring-progress');
+            const modeLabel = document.getElementById('timer-mode-label');
+            
+            if (mode === 'manual') {
+                actionControls.classList.add('hidden');
+                manualControls.classList.remove('hidden');
+                ringProgress.classList.remove('pulsing');
+                modeLabel.textContent = 'Manual Log Mode';
+                // Reset display for manual mode
+                timerSeconds = 0;
+                updateTimerDisplay();
+                updateRing();
+            } else if (mode === 'pomodoro') {
+                actionControls.classList.remove('hidden');
+                manualControls.classList.add('hidden');
+                ringProgress.classList.remove('pulsing');
+                modeLabel.textContent = 'Pomodoro Mode';
+                // Reset to 25 minutes if starting fresh
+                if (!timerRunning && timerSeconds === 0) {
+                    timerSeconds = POMODORO_DEFAULT;
+                }
+                updateTimerDisplay();
+                updateRing();
+            } else {
+                // Timer mode
+                actionControls.classList.remove('hidden');
+                manualControls.classList.add('hidden');
+                modeLabel.textContent = 'Timer Mode';
+                ringProgress.classList.add('pulsing');
+                updateTimerDisplay();
+                updateRing();
+            }
+            
+            updateButtonStates();
+            saveTimerState();
+        }
+        
+        function startTimer() {
+            if (timerRunning) return;
+            
+            timerRunning = true;
+            
+            if (timerMode === 'pomodoro' && timerSeconds === 0) {
+                timerSeconds = POMODORO_DEFAULT;
+            }
+            
+            const targetSeconds = timerMode === 'pomodoro' ? POMODORO_DEFAULT : Infinity;
+            
+            timerIntervalId = setInterval(() => {
+                if (timerMode === 'timer') {
+                    timerSeconds++;
+                } else if (timerMode === 'pomodoro') {
+                    timerSeconds--;
+                    if (timerSeconds <= 0) {
+                        timerSeconds = 0;
+                        stopTimer();
+                        alert('Pomodoro session completed! Great job!');
+                    }
+                }
+                updateTimerDisplay();
+                updateRing();
+                saveTimerState();
+            }, 1000);
+            
+            updateButtonStates();
+        }
+        
+        function pauseTimer() {
+            if (!timerRunning) return;
+            
+            clearInterval(timerIntervalId);
+            timerIntervalId = null;
+            timerRunning = false;
+            
+            updateButtonStates();
+            saveTimerState();
+        }
+        
+        function stopTimer() {
+            if (timerIntervalId) {
+                clearInterval(timerIntervalId);
+                timerIntervalId = null;
+            }
+            
+            // Log the session before resetting
+            if (timerSeconds > 0) {
+                const subject = document.getElementById('timer-subject').value;
+                logSession(subject, timerSeconds, timerMode);
+            }
+            
+            timerRunning = false;
+            timerSeconds = 0;
+            
+            updateTimerDisplay();
+            updateRing();
+            updateButtonStates();
+            saveTimerState();
+        }
+        
+        function updateTimerDisplay() {
+            const display = document.getElementById('timer-display');
+            const hours = Math.floor(Math.abs(timerSeconds) / 3600);
+            const minutes = Math.floor((Math.abs(timerSeconds) % 3600) / 60);
+            const seconds = Math.abs(timerSeconds) % 60;
+            
+            display.textContent = 
+                String(hours).padStart(2, '0') + ':' +
+                String(minutes).padStart(2, '0') + ':' +
+                String(seconds).padStart(2, '0');
+        }
+        
+        function updateRing() {
+            const ringProgress = document.querySelector('.timer-ring-progress');
+            let offset = 0;
+            
+            if (timerMode === 'timer') {
+                // Count UP - fill clockwise
+                // Max display: 24 hours = 86400 seconds
+                const maxSeconds = 24 * 60 * 60;
+                const progress = Math.min(timerSeconds / maxSeconds, 1);
+                offset = RING_CIRCUMFERENCE * (1 - progress);
+            } else if (timerMode === 'pomodoro') {
+                // Count DOWN - empty anti-clockwise
+                const progress = timerSeconds / POMODORO_DEFAULT;
+                offset = RING_CIRCUMFERENCE * (1 - progress);
+            } else {
+                // Manual mode - no ring animation
+                offset = RING_CIRCUMFERENCE;
+            }
+            
+            ringProgress.style.strokeDashoffset = offset;
+        }
+        
+        function updateButtonStates() {
+            const startBtn = document.getElementById('btn-start-timer');
+            const pauseBtn = document.getElementById('btn-pause-timer');
+            const stopBtn = document.getElementById('btn-stop-timer');
+            
+            if (timerMode === 'manual') {
+                startBtn.classList.add('hidden');
+                pauseBtn.classList.add('hidden');
+                stopBtn.classList.add('hidden');
+            } else {
+                startBtn.classList.remove('hidden');
+                stopBtn.classList.remove('hidden');
+                
+                if (timerRunning) {
+                    startBtn.classList.add('hidden');
+                    pauseBtn.classList.remove('hidden');
+                } else {
+                    startBtn.classList.remove('hidden');
+                    pauseBtn.classList.add('hidden');
+                }
+            }
+        }
+        
+        function logSession(subject, durationSeconds, mode) {
+            const data = getData();
+            if (!data.timerLogs) {
+                data.timerLogs = [];
+            }
+            
+            const newLog = {
+                id: 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+                subject: subject,
+                mode: mode,
+                durationSeconds: durationSeconds,
+                date: new Date().toISOString().split('T')[0],
+                timestamp: Date.now()
+            };
+            
+            data.timerLogs.push(newLog);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            
+            renderSessionsList();
+            updateTodayStudyTime();
+        }
+        
+        function logManualSession() {
+            const hours = parseInt(document.getElementById('manual-hours').value) || 0;
+            const minutes = parseInt(document.getElementById('manual-minutes').value) || 0;
+            const seconds = parseInt(document.getElementById('manual-seconds').value) || 0;
+            const subject = document.getElementById('timer-subject').value;
+            
+            const totalSeconds = hours * 3600 + minutes * 60 + seconds;
+            
+            // Validation: max 23h 59m 59s
+            if (totalSeconds <= 0) {
+                alert('Please enter a valid duration greater than 0.');
+                return;
+            }
+            
+            if (totalSeconds > 23 * 3600 + 59 * 60 + 59) {
+                alert('Maximum duration is 23 hours, 59 minutes, 59 seconds.');
+                return;
+            }
+            
+            logSession(subject, totalSeconds, 'manual');
+            
+            // Reset inputs
+            document.getElementById('manual-hours').value = 0;
+            document.getElementById('manual-minutes').value = 0;
+            document.getElementById('manual-seconds').value = 0;
+            
+            alert('Session logged successfully!');
+        }
+        
+        function renderSessionsList() {
+            const container = document.getElementById('sessions-list');
+            const data = getData();
+            const logs = data.timerLogs || [];
+            
+            if (logs.length === 0) {
+                container.innerHTML = `
+                    <div class="placeholder-content">
+                        <p>No sessions logged yet.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Sort by timestamp descending (most recent first)
+            const sortedLogs = [...logs].sort((a, b) => b.timestamp - a.timestamp);
+            
+            container.innerHTML = sortedLogs.map(log => {
+                const durationStr = formatDuration(log.durationSeconds);
+                const dateStr = new Date(log.timestamp).toLocaleString('en-IN', {
+                    month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                });
+                
+                return `
+                    <div class="session-item" data-id="${log.id}">
+                        <div class="session-info">
+                            <span class="session-subject">${log.subject}</span>
+                            <span class="session-meta">${dateStr} • ${log.mode}</span>
+                        </div>
+                        <span class="session-duration">${durationStr}</span>
+                        <button class="session-delete-btn" onclick="deleteSession('${log.id}')">🗑️</button>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function deleteSession(id) {
+            if (!confirm('Are you sure you want to delete this session?')) {
+                return;
+            }
+            
+            const data = getData();
+            data.timerLogs = (data.timerLogs || []).filter(log => log.id !== id);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            
+            renderSessionsList();
+            updateTodayStudyTime();
+        }
+        
+        function updateTodayStudyTime() {
+            const display = document.getElementById('today-study-time');
+            const data = getData();
+            const logs = data.timerLogs || [];
+            const today = new Date().toISOString().split('T')[0];
+            
+            const todaySeconds = logs
+                .filter(log => log.date === today)
+                .reduce((sum, log) => sum + log.durationSeconds, 0);
+            
+            display.textContent = formatDuration(todaySeconds, true);
+        }
+        
+        function formatDuration(totalSeconds, showSummary = false) {
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            
+            if (showSummary) {
+                return `${hours}h ${minutes}m`;
+            }
+            
+            const seconds = totalSeconds % 60;
+            return String(hours).padStart(2, '0') + ':' +
+                   String(minutes).padStart(2, '0') + ':' +
+                   String(seconds).padStart(2, '0');
+        }
+
+        // ============================================
         // INITIALIZATION ON PAGE LOAD
         // ============================================
         
@@ -3271,6 +4028,9 @@
                 
                 // Initialize mock tests page
                 initMockTests();
+                
+                // Initialize timer module
+                initTimerModule();
             } else {
                 // No profile, keep onboarding visible
                 onboardingSection.classList.remove('hidden');
