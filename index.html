@@ -365,9 +365,20 @@
 
         input[type="text"]:focus,
         select:focus,
-        textarea:focus {
+        textarea:focus,
+        input[type="number"]:focus,
+        input[type="date"]:focus {
             outline: none;
             border-color: var(--accent-color);
+        }
+
+        /* Invalid field styling - red glow */
+        input[type="text"].invalid,
+        select.invalid,
+        input[type="number"].invalid,
+        input[type="date"].invalid {
+            border-color: #ef4444 !important;
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.5) !important;
         }
 
         textarea {
@@ -2129,6 +2140,11 @@
             const targetPage = document.getElementById(`page-${pageId}`);
             if (targetPage) {
                 targetPage.classList.remove('hidden');
+                
+                // Re-render mock tests when navigating to that page
+                if (pageId === 'mock-tests') {
+                    renderMockTests();
+                }
             }
 
             // Close mobile sidebar after navigation
@@ -2972,56 +2988,26 @@
             // Validation
             let isValid = true;
             
-            if (!testName) {
-                document.getElementById('test-name').style.borderColor = '#ef4444';
-                document.getElementById('test-name').style.boxShadow = '0 0 10px rgba(239, 68, 68, 0.5)';
-                isValid = false;
-            } else {
-                document.getElementById('test-name').style.borderColor = '';
-                document.getElementById('test-name').style.boxShadow = '';
+            // Helper function to set invalid state
+            function setInvalid(element, isInvalid) {
+                if (isInvalid) {
+                    element.classList.add('invalid');
+                    isValid = false;
+                } else {
+                    element.classList.remove('invalid');
+                }
             }
             
-            if (!category) {
-                document.getElementById('test-category').style.borderColor = '#ef4444';
-                document.getElementById('test-category').style.boxShadow = '0 0 10px rgba(239, 68, 68, 0.5)';
-                isValid = false;
-            } else {
-                document.getElementById('test-category').style.borderColor = '';
-                document.getElementById('test-category').style.boxShadow = '';
-            }
-            
-            if (!obtained && obtained !== 0) {
-                document.getElementById('obtained-marks').style.borderColor = '#ef4444';
-                document.getElementById('obtained-marks').style.boxShadow = '0 0 10px rgba(239, 68, 68, 0.5)';
-                isValid = false;
-            } else {
-                document.getElementById('obtained-marks').style.borderColor = '';
-                document.getElementById('obtained-marks').style.boxShadow = '';
-            }
-            
-            if (!total || total <= 0) {
-                document.getElementById('total-marks').style.borderColor = '#ef4444';
-                document.getElementById('total-marks').style.boxShadow = '0 0 10px rgba(239, 68, 68, 0.5)';
-                isValid = false;
-            } else {
-                document.getElementById('total-marks').style.borderColor = '';
-                document.getElementById('total-marks').style.boxShadow = '';
-            }
-            
-            if (!date) {
-                document.getElementById('test-date').style.borderColor = '#ef4444';
-                document.getElementById('test-date').style.boxShadow = '0 0 10px rgba(239, 68, 68, 0.5)';
-                isValid = false;
-            } else {
-                document.getElementById('test-date').style.borderColor = '';
-                document.getElementById('test-date').style.boxShadow = '';
-            }
+            setInvalid(document.getElementById('test-name'), !testName);
+            setInvalid(document.getElementById('test-category'), !category);
+            setInvalid(document.getElementById('obtained-marks'), (!obtained && obtained !== 0));
+            setInvalid(document.getElementById('total-marks'), (!total || total <= 0));
+            setInvalid(document.getElementById('test-date'), !date);
             
             // Validate obtained <= total
             if (obtained > total) {
                 alert('Obtained marks cannot exceed total marks!');
-                document.getElementById('obtained-marks').style.borderColor = '#ef4444';
-                document.getElementById('obtained-marks').style.boxShadow = '0 0 10px rgba(239, 68, 68, 0.5)';
+                document.getElementById('obtained-marks').classList.add('invalid');
                 return;
             }
             
@@ -3254,8 +3240,7 @@
                 const input = document.getElementById(id);
                 if (input) {
                     input.addEventListener('focus', function() {
-                        this.style.borderColor = '';
-                        this.style.boxShadow = '';
+                        this.classList.remove('invalid');
                     });
                 }
             });
