@@ -1718,6 +1718,242 @@
             }
         }
 
+        /* Habits Styles */
+        .habits-add-section {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .habits-add-section input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: #f1f5f9;
+            font-size: 1rem;
+        }
+
+        .habits-add-section input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .habits-list-container h3,
+        .habits-graph-section h3 {
+            margin-bottom: 1rem;
+            color: #f1f5f9;
+            font-size: 1.1rem;
+        }
+
+        .habits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .habit-card {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s ease;
+        }
+
+        .habit-card:hover {
+            transform: translateY(-2px);
+            border-color: #3b82f6;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+        }
+
+        .habit-card.checked {
+            opacity: 0.6;
+        }
+
+        .habit-card.checked .habit-name {
+            text-decoration: line-through;
+            color: #64748b;
+        }
+
+        .habit-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex: 1;
+        }
+
+        .habit-checkbox {
+            width: 22px;
+            height: 22px;
+            border: 2px solid #475569;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .habit-checkbox.checked {
+            background-color: #22c55e;
+            border-color: #22c55e;
+        }
+
+        .habit-checkbox.checked::after {
+            content: '✓';
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .habit-name {
+            color: #f1f5f9;
+            font-size: 1rem;
+            transition: color 0.2s ease;
+        }
+
+        .habit-streak {
+            font-size: 0.85rem;
+            color: #f59e0b;
+            white-space: nowrap;
+            margin-left: 0.5rem;
+        }
+
+        .habit-delete-btn {
+            background: none;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            font-size: 1.1rem;
+        }
+
+        .habit-delete-btn:hover {
+            color: #ef4444;
+            background-color: rgba(239, 68, 68, 0.1);
+        }
+
+        .habits-graph-section {
+            margin-top: 2rem;
+        }
+
+        #consistency-chart {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 1.5rem;
+            min-height: 250px;
+            position: relative;
+        }
+
+        .chart-bars-container {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            height: 200px;
+            padding: 0 1rem;
+            gap: 2px;
+        }
+
+        .chart-bar-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            height: 100%;
+            position: relative;
+        }
+
+        .chart-bar {
+            width: 100%;
+            max-width: 30px;
+            background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
+            border-radius: 4px 4px 0 0;
+            transition: height 0.3s ease;
+            position: relative;
+        }
+
+        .chart-bar:hover {
+            background: linear-gradient(180deg, #60a5fa 0%, #3b82f6 100%);
+        }
+
+        .chart-bar-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.75rem;
+            color: #f1f5f9;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+            z-index: 10;
+            margin-bottom: 0.5rem;
+        }
+
+        .chart-bar-wrapper:hover .chart-bar-tooltip {
+            opacity: 1;
+        }
+
+        .chart-bar-label {
+            font-size: 0.65rem;
+            color: #64748b;
+            margin-top: 0.5rem;
+            text-align: center;
+            transform: rotate(-45deg);
+            transform-origin: top center;
+            white-space: nowrap;
+        }
+
+        .chart-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+            color: #64748b;
+            text-align: center;
+        }
+
+        .chart-placeholder .placeholder-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Mobile Responsive for Habits */
+        @media (max-width: 768px) {
+            .habits-add-section {
+                flex-direction: column;
+            }
+
+            .habits-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-bars-container {
+                gap: 1px;
+            }
+
+            .chart-bar-label {
+                font-size: 0.6rem;
+            }
+        }
+
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .form-row {
@@ -2247,11 +2483,27 @@
                 <h1 class="page-title">Habit Tracker</h1>
                 <p class="page-subtitle">Build consistent study habits</p>
             </div>
-            <div class="page-card">
-                <div class="placeholder-content">
-                    <div class="placeholder-icon">✅</div>
-                    <h2>Habit Tracker</h2>
-                    <p>Track daily habits and build a consistent routine.</p>
+            
+            <!-- Section A: Add Habit -->
+            <div class="habits-add-section">
+                <input type="text" id="new-habit-input" placeholder="Add New Habit (e.g., Read 30 mins)" />
+                <button class="btn btn-primary" onclick="addHabit()">Add Habit</button>
+            </div>
+
+            <!-- Section B: Daily Habit List -->
+            <div class="habits-list-container">
+                <h3>Today's Habits</h3>
+                <div id="habits-list" class="habits-grid">
+                    <!-- Habits injected here -->
+                </div>
+            </div>
+
+            <!-- Section C: Global Consistency Graph -->
+            <div class="habits-graph-section">
+                <h3>Consistency (Last 30 Days)</h3>
+                <div id="consistency-chart" class="chart-container">
+                    <!-- Bars injected here -->
+                    <div class="chart-placeholder">Start tracking habits to see consistency</div>
                 </div>
             </div>
         </div>
@@ -4004,6 +4256,204 @@
         }
 
         // ============================================
+        // HABIT TRACKER MODULE
+        // ============================================
+        
+        let habitsData = [];
+        
+        function getTodayDateString() {
+            const today = new Date();
+            return today.toISOString().split('T')[0]; // YYYY-MM-DD
+        }
+        
+        function initHabitsModule() {
+            const data = getData();
+            habitsData = data.habits || [];
+            
+            // Ensure today's date exists in each habit's completions
+            const todayStr = getTodayDateString();
+            habitsData.forEach(habit => {
+                if (!(todayStr in habit.completions)) {
+                    habit.completions[todayStr] = false;
+                }
+            });
+            
+            saveData();
+            renderHabits();
+            renderConsistencyChart();
+        }
+        
+        function addHabit() {
+            const input = document.getElementById('new-habit-input');
+            const name = input.value.trim();
+            
+            if (!name) {
+                input.classList.add('invalid');
+                setTimeout(() => input.classList.remove('invalid'), 2000);
+                return;
+            }
+            
+            // Check for duplicates
+            const duplicate = habitsData.find(h => h.name.toLowerCase() === name.toLowerCase());
+            if (duplicate) {
+                input.classList.add('invalid');
+                setTimeout(() => input.classList.remove('invalid'), 2000);
+                return;
+            }
+            
+            const todayStr = getTodayDateString();
+            const newHabit = {
+                id: Date.now(),
+                name: name,
+                createdDate: todayStr,
+                completions: { [todayStr]: false }
+            };
+            
+            habitsData.push(newHabit);
+            saveData();
+            input.value = '';
+            renderHabits();
+            renderConsistencyChart();
+        }
+        
+        function toggleHabit(habitId) {
+            const todayStr = getTodayDateString();
+            const habit = habitsData.find(h => h.id === habitId);
+            
+            if (habit) {
+                habit.completions[todayStr] = !habit.completions[todayStr];
+                saveData();
+                renderHabits();
+                renderConsistencyChart();
+            }
+        }
+        
+        function deleteHabit(habitId) {
+            if (confirm('Are you sure you want to delete this habit?')) {
+                habitsData = habitsData.filter(h => h.id !== habitId);
+                saveData();
+                renderHabits();
+                renderConsistencyChart();
+            }
+        }
+        
+        function calculateStreak(habit) {
+            let streak = 0;
+            const today = new Date();
+            
+            // Start from yesterday and go backwards
+            let checkDate = new Date(today);
+            checkDate.setDate(checkDate.getDate() - 1);
+            
+            while (true) {
+                const dateStr = checkDate.toISOString().split('T')[0];
+                
+                if (habit.completions[dateStr] === true) {
+                    streak++;
+                    checkDate.setDate(checkDate.getDate() - 1);
+                } else {
+                    break;
+                }
+                
+                // Safety limit: don't go back more than a year
+                if (streak > 365) break;
+            }
+            
+            return streak;
+        }
+        
+        function renderHabits() {
+            const container = document.getElementById('habits-list');
+            const todayStr = getTodayDateString();
+            
+            if (habitsData.length === 0) {
+                container.innerHTML = `
+                    <div class="chart-placeholder">
+                        <div class="placeholder-icon">📝</div>
+                        <p>No habits added yet. Add your first habit above!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = habitsData.map(habit => {
+                const isChecked = habit.completions[todayStr] === true;
+                const streak = calculateStreak(habit);
+                
+                return `
+                    <div class="habit-card ${isChecked ? 'checked' : ''}">
+                        <div class="habit-left">
+                            <div class="habit-checkbox ${isChecked ? 'checked' : ''}" onclick="toggleHabit(${habit.id})"></div>
+                            <span class="habit-name">${escapeHtml(habit.name)}</span>
+                            ${streak > 0 ? `<span class="habit-streak">🔥 ${streak} day${streak !== 1 ? 's' : ''}</span>` : ''}
+                        </div>
+                        <button class="habit-delete-btn" onclick="deleteHabit(${habit.id})">🗑️</button>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function renderConsistencyChart() {
+            const container = document.getElementById('consistency-chart');
+            
+            if (habitsData.length === 0) {
+                container.innerHTML = `
+                    <div class="chart-placeholder">
+                        <div class="placeholder-icon">📊</div>
+                        <p>Start tracking habits to see consistency</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Get last 30 days
+            const today = new Date();
+            const last30Days = [];
+            
+            for (let i = 29; i >= 0; i--) {
+                const date = new Date(today);
+                date.setDate(date.getDate() - i);
+                last30Days.push(date);
+            }
+            
+            // Calculate total completions per day
+            const dailyCounts = last30Days.map(date => {
+                const dateStr = date.toISOString().split('T')[0];
+                let count = 0;
+                habitsData.forEach(habit => {
+                    if (habit.completions[dateStr] === true) {
+                        count++;
+                    }
+                });
+                return { date, dateStr, count };
+            });
+            
+            // Find max count for scaling
+            const maxCount = Math.max(...dailyCounts.map(d => d.count), 1);
+            
+            // Generate bars
+            const barsHtml = dailyCounts.map((day, index) => {
+                const heightPercent = (day.count / maxCount) * 100;
+                const dayLabel = day.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                const fullDate = day.date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+                
+                return `
+                    <div class="chart-bar-wrapper">
+                        <div class="chart-bar-tooltip">${fullDate}: ${day.count} habit${day.count !== 1 ? 's' : ''}</div>
+                        <div class="chart-bar" style="height: ${heightPercent}%"></div>
+                        ${index % 5 === 0 ? `<div class="chart-bar-label">${dayLabel}</div>` : '<div class="chart-bar-label"></div>'}
+                    </div>
+                `;
+            }).join('');
+            
+            container.innerHTML = `
+                <div class="chart-bars-container">
+                    ${barsHtml}
+                </div>
+            `;
+        }
+
+        // ============================================
         // INITIALIZATION ON PAGE LOAD
         // ============================================
         
@@ -4031,6 +4481,9 @@
                 
                 // Initialize timer module
                 initTimerModule();
+                
+                // Initialize habits module
+                initHabitsModule();
             } else {
                 // No profile, keep onboarding visible
                 onboardingSection.classList.remove('hidden');
