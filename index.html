@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EigenX - JEE Exam Tracker</title>
+    
+    <!-- ============================================ -->
+    <!-- CSS STYLES                                   -->
+    <!-- ============================================ -->
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #09090b;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Card Container */
+        .card {
+            background-color: #18181b;
+            border-radius: 1rem;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            color: #3b82f6;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #e4e4e7;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #a1a1aa;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #d4d4d8;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: #27272a;
+            border: 2px solid #3f3f46;
+            border-radius: 0.5rem;
+            color: #ffffff;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.2s ease;
+        }
+
+        input[type="text"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .char-count {
+            text-align: right;
+            font-size: 0.75rem;
+            color: #71717a;
+            margin-top: 0.25rem;
+        }
+
+        /* Button Styles */
+        .btn {
+            width: 100%;
+            padding: 0.875rem 1.5rem;
+            background-color: #3b82f6;
+            color: #ffffff;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .btn:hover {
+            background-color: #2563eb;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Dashboard Styles */
+        .dashboard-info {
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        .user-name {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #3b82f6;
+            margin-bottom: 0.5rem;
+        }
+
+        .user-class {
+            font-size: 1.1rem;
+            color: #a1a1aa;
+            margin-bottom: 2rem;
+        }
+
+        .coming-soon {
+            background-color: #27272a;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            text-align: center;
+            color: #a1a1aa;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 480px) {
+            .card {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            h2 {
+                font-size: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ============================================ -->
+    <!-- ONBOARDING SECTION                           -->
+    <!-- Shown when no profile exists in localStorage -->
+    <!-- ============================================ -->
+    <div id="onboarding-section" class="card">
+        <h1>EigenX</h1>
+        <p class="subtitle">Your JEE Exam Tracker</p>
+        
+        <form id="onboarding-form">
+            <!-- Name Field -->
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required placeholder="Enter your name">
+            </div>
+
+            <!-- Class Field -->
+            <div class="form-group">
+                <label for="class">Class</label>
+                <select id="class" name="class" required>
+                    <option value="" disabled selected>Select your class</option>
+                    <option value="11th">11th</option>
+                    <option value="12th">12th</option>
+                    <option value="Dropper">Dropper</option>
+                    <option value="Repeater">Repeater</option>
+                </select>
+            </div>
+
+            <!-- Gender Field -->
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender" name="gender" required>
+                    <option value="" disabled selected>Select gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
+
+            <!-- Bio Field -->
+            <div class="form-group">
+                <label for="bio">Bio (Optional)</label>
+                <textarea id="bio" name="bio" maxlength="150" placeholder="Tell us about yourself (max 150 characters)"></textarea>
+                <div class="char-count"><span id="char-count">0</span>/150</div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn">Get Started</button>
+        </form>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- DASHBOARD SECTION                            -->
+    <!-- Shown when profile exists in localStorage    -->
+    <!-- ============================================ -->
+    <div id="dashboard-section" class="card hidden">
+        <h1>EigenX</h1>
+        <p class="subtitle">Welcome back!</p>
+        
+        <div class="dashboard-info">
+            <div class="user-name" id="display-name"></div>
+            <div class="user-class" id="display-class"></div>
+            
+            <div class="coming-soon">
+                Navigation & features coming in next update
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- JAVASCRIPT LOGIC                             -->
+    <!-- Handles localStorage and UI toggling         -->
+    <!-- ============================================ -->
+    <script>
+        // ============================================
+        // LOCAL STORAGE UTILITY FUNCTIONS
+        // ============================================
+        
+        const STORAGE_KEY = 'eigenx_data';
+
+        /**
+         * Retrieves data from localStorage
+         * @returns {Object} Parsed data object or empty object if not found/error
+         */
+        function getData() {
+            try {
+                const data = localStorage.getItem(STORAGE_KEY);
+                if (!data) {
+                    return {};
+                }
+                return JSON.parse(data);
+            } catch (error) {
+                console.error('Error reading from localStorage:', error);
+                return {};
+            }
+        }
+
+        /**
+         * Saves data to localStorage
+         * @param {Object} data - Data object to save
+         * @returns {boolean} True if successful, false otherwise
+         */
+        function saveData(data) {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+                return true;
+            } catch (error) {
+                console.error('Error saving to localStorage:', error);
+                return false;
+            }
+        }
+
+        // ============================================
+        // DOM ELEMENTS
+        // ============================================
+        
+        const onboardingSection = document.getElementById('onboarding-section');
+        const dashboardSection = document.getElementById('dashboard-section');
+        const onboardingForm = document.getElementById('onboarding-form');
+        const displayName = document.getElementById('display-name');
+        const displayClass = document.getElementById('display-class');
+        const bioInput = document.getElementById('bio');
+        const charCountSpan = document.getElementById('char-count');
+
+        // ============================================
+        // CHARACTER COUNT FOR BIO TEXTAREA
+        // ============================================
+        
+        bioInput.addEventListener('input', function() {
+            const currentLength = this.value.length;
+            charCountSpan.textContent = currentLength;
+        });
+
+        // ============================================
+        // SHOW DASHBOARD WITH USER INFO
+        // ============================================
+        
+        function showDashboard(profile) {
+            displayName.textContent = profile.name;
+            displayClass.textContent = `Class ${profile.class}`;
+            
+            onboardingSection.classList.add('hidden');
+            dashboardSection.classList.remove('hidden');
+        }
+
+        // ============================================
+        // SHOW ONBOARDING FORM
+        // ============================================
+        
+        function showOnboarding() {
+            dashboardSection.classList.add('hidden');
+            onboardingSection.classList.remove('hidden');
+        }
+
+        // ============================================
+        // HANDLE FORM SUBMISSION
+        // ============================================
+        
+        onboardingForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Gather form data
+            const profile = {
+                name: document.getElementById('name').value.trim(),
+                class: document.getElementById('class').value,
+                gender: document.getElementById('gender').value,
+                bio: document.getElementById('bio').value.trim(),
+                createdAt: new Date().toISOString()
+            };
+
+            // Save to localStorage
+            const existingData = getData();
+            existingData.profile = profile;
+            
+            if (saveData(existingData)) {
+                // Switch to dashboard view
+                showDashboard(profile);
+            } else {
+                alert('Failed to save profile. Please try again.');
+            }
+        });
+
+        // ============================================
+        // INITIALIZATION ON PAGE LOAD
+        // ============================================
+        
+        function init() {
+            const data = getData();
+            
+            if (data.profile && data.profile.name) {
+                // Profile exists, show dashboard
+                showDashboard(data.profile);
+            } else {
+                // No profile, show onboarding
+                showOnboarding();
+            }
+        }
+
+        // Run initialization when DOM is ready
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
