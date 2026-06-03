@@ -9,7 +9,44 @@
     <!-- CSS STYLES                                   -->
     <!-- ============================================ -->
     <style>
-        /* Reset and Base Styles */
+        /* ============================================
+           CSS VARIABLES FOR THEME ENGINE
+           ============================================ */
+        :root {
+            /* Dark Mode (Default) */
+            --bg-primary: #09090b;
+            --bg-secondary: #18181b;
+            --bg-tertiary: #27272a;
+            --text-primary: #e2e8f0;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --border-color: #3f3f46;
+            --accent-color: #3b82f6;
+            --accent-hover: #2563eb;
+            --card-bg: #18181b;
+            --sidebar-bg: #18181b;
+            --overlay-bg: rgba(0, 0, 0, 0.7);
+        }
+
+        /* Light Mode Variables */
+        body.light {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f1f5f9;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --border-color: #e2e8f0;
+            --accent-color: #3b82f6;
+            --accent-hover: #2563eb;
+            --card-bg: #ffffff;
+            --sidebar-bg: #ffffff;
+            --overlay-bg: rgba(0, 0, 0, 0.5);
+        }
+
+        /* ============================================
+           RESET AND BASE STYLES
+           ============================================ */
         * {
             margin: 0;
             padding: 0;
@@ -18,28 +55,261 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #09090b;
-            color: #ffffff;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* Utility Classes */
+        /* ============================================
+           UTILITY CLASSES
+           ============================================ */
         .hidden {
             display: none !important;
         }
 
-        /* Card Container */
+        /* ============================================
+           SIDEBAR STYLES
+           ============================================ */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 260px;
+            height: 100vh;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+            z-index: 1000;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Sidebar Logo */
+        .sidebar-logo {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* Navigation Links */
+        .nav-links {
+            list-style: none;
+            flex: 1;
+        }
+
+        .nav-item {
+            margin-bottom: 0.25rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-link:hover {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .nav-link.active {
+            border-left-color: var(--accent-color);
+            background-color: rgba(59, 130, 246, 0.1);
+            color: var(--accent-color);
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* Sidebar Bottom Section */
+        .sidebar-bottom {
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+            background-color: var(--bg-tertiary);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            margin-bottom: 1rem;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--border-color);
+        }
+
+        .theme-toggle span {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .theme-icon {
+            font-size: 1.2rem;
+        }
+
+        .user-info {
+            text-align: center;
+        }
+
+        .user-name-sidebar {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .user-role {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+        }
+
+        /* ============================================
+           MAIN CONTENT AREA
+           ============================================ */
+        .main-content {
+            margin-left: 260px;
+            min-height: 100vh;
+            padding: 2rem;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* ============================================
+           PAGE CONTENT STYLES
+           ============================================ */
+        .page-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .page-card {
+            background-color: var(--card-bg);
+            border-radius: 1rem;
+            padding: 2.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .placeholder-content {
+            text-align: center;
+            padding: 3rem 0;
+            color: var(--text-secondary);
+        }
+
+        .placeholder-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* ============================================
+           HAMBURGER MENU (MOBILE)
+           ============================================ */
+        .hamburger-menu {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1100;
+            background-color: var(--sidebar-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .hamburger-menu:hover {
+            background-color: var(--bg-tertiary);
+        }
+
+        .hamburger-icon {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        /* Mobile Sidebar Overlay */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--overlay-bg);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+        }
+
+        /* ============================================
+           ONBOARDING SECTION
+           ============================================ */
+        .onboarding-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--bg-primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            z-index: 2000;
+            transition: background-color 0.3s ease;
+        }
+
         .card {
-            background-color: #18181b;
+            background-color: var(--card-bg);
             border-radius: 1rem;
             padding: 2.5rem;
             width: 100%;
             max-width: 450px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: background-color 0.3s ease;
         }
 
         /* Typography */
@@ -48,7 +318,7 @@
             font-weight: 700;
             text-align: center;
             margin-bottom: 0.5rem;
-            color: #3b82f6;
+            color: var(--accent-color);
         }
 
         h2 {
@@ -56,12 +326,12 @@
             font-weight: 600;
             text-align: center;
             margin-bottom: 2rem;
-            color: #e4e4e7;
+            color: var(--text-primary);
         }
 
         .subtitle {
             text-align: center;
-            color: #a1a1aa;
+            color: var(--text-secondary);
             margin-bottom: 2rem;
             font-size: 0.9rem;
         }
@@ -74,7 +344,7 @@
         label {
             display: block;
             margin-bottom: 0.5rem;
-            color: #d4d4d8;
+            color: var(--text-primary);
             font-size: 0.9rem;
             font-weight: 500;
         }
@@ -84,20 +354,20 @@
         textarea {
             width: 100%;
             padding: 0.75rem 1rem;
-            background-color: #27272a;
-            border: 2px solid #3f3f46;
+            background-color: var(--bg-tertiary);
+            border: 2px solid var(--border-color);
             border-radius: 0.5rem;
-            color: #ffffff;
+            color: var(--text-primary);
             font-size: 1rem;
             font-family: inherit;
-            transition: border-color 0.2s ease;
+            transition: border-color 0.2s ease, background-color 0.3s ease;
         }
 
         input[type="text"]:focus,
         select:focus,
         textarea:focus {
             outline: none;
-            border-color: #3b82f6;
+            border-color: var(--accent-color);
         }
 
         textarea {
@@ -108,7 +378,7 @@
         .char-count {
             text-align: right;
             font-size: 0.75rem;
-            color: #71717a;
+            color: var(--text-muted);
             margin-top: 0.25rem;
         }
 
@@ -116,7 +386,7 @@
         .btn {
             width: 100%;
             padding: 0.875rem 1.5rem;
-            background-color: #3b82f6;
+            background-color: var(--accent-color);
             color: #ffffff;
             border: none;
             border-radius: 0.5rem;
@@ -127,7 +397,7 @@
         }
 
         .btn:hover {
-            background-color: #2563eb;
+            background-color: var(--accent-hover);
         }
 
         .btn:active {
@@ -140,31 +410,58 @@
             padding: 1rem 0;
         }
 
-        .user-name {
+        .user-name-display {
             font-size: 1.75rem;
             font-weight: 700;
-            color: #3b82f6;
+            color: var(--accent-color);
             margin-bottom: 0.5rem;
         }
 
-        .user-class {
+        .user-class-display {
             font-size: 1.1rem;
-            color: #a1a1aa;
+            color: var(--text-secondary);
             margin-bottom: 2rem;
         }
 
         .coming-soon {
-            background-color: #27272a;
+            background-color: var(--bg-tertiary);
             border-radius: 0.5rem;
             padding: 2rem;
             text-align: center;
-            color: #a1a1aa;
+            color: var(--text-secondary);
             font-size: 1rem;
             line-height: 1.6;
         }
 
-        /* Responsive Adjustments */
-        @media (max-width: 480px) {
+        /* ============================================
+           RESPONSIVE ADJUSTMENTS
+           ============================================ */
+        @media (max-width: 768px) {
+            /* Show hamburger menu on mobile */
+            .hamburger-menu {
+                display: block;
+            }
+
+            /* Hide sidebar by default on mobile */
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            /* Show overlay when sidebar is open */
+            .sidebar-overlay {
+                display: block;
+            }
+
+            /* Main content takes full width on mobile */
+            .main-content {
+                margin-left: 0;
+                padding: 5rem 1rem 1rem;
+            }
+
             .card {
                 padding: 1.5rem;
             }
@@ -176,80 +473,279 @@
             h2 {
                 font-size: 1.25rem;
             }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
-<body>
+<body class="dark">
     <!-- ============================================ -->
-    <!-- ONBOARDING SECTION                           -->
+    <!-- HAMBURGER MENU BUTTON (MOBILE ONLY)          -->
+    <!-- ============================================ -->
+    <button class="hamburger-menu" id="hamburger-btn" aria-label="Toggle menu">
+        <span class="hamburger-icon">☰</span>
+    </button>
+
+    <!-- ============================================ -->
+    <!-- SIDEBAR OVERLAY (MOBILE)                     -->
+    <!-- ============================================ -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <!-- ============================================ -->
+    <!-- SIDEBAR NAVIGATION                           -->
+    <!-- ============================================ -->
+    <aside class="sidebar" id="sidebar">
+        <!-- Logo -->
+        <div class="sidebar-logo">EigenX</div>
+
+        <!-- Navigation Links -->
+        <ul class="nav-links">
+            <li class="nav-item">
+                <a href="#" class="nav-link active" data-page="home">
+                    <span class="nav-icon">🏠</span>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-page="tasks">
+                    <span class="nav-icon">📝</span>
+                    <span>Subject Tasks</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-page="syllabus">
+                    <span class="nav-icon">📚</span>
+                    <span>Syllabus</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-page="mock-tests">
+                    <span class="nav-icon">📊</span>
+                    <span>Mock Tests</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-page="timer">
+                    <span class="nav-icon">⏱️</span>
+                    <span>Study Timer</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-page="habits">
+                    <span class="nav-icon">✅</span>
+                    <span>Habit Tracker</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-page="goals">
+                    <span class="nav-icon">🎯</span>
+                    <span>Goals</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-page="profile">
+                    <span class="nav-icon">👤</span>
+                    <span>Profile</span>
+                </a>
+            </li>
+        </ul>
+
+        <!-- Bottom Section -->
+        <div class="sidebar-bottom">
+            <!-- Theme Toggle -->
+            <div class="theme-toggle" id="theme-toggle">
+                <span>Theme</span>
+                <span class="theme-icon" id="theme-icon">🌙</span>
+            </div>
+
+            <!-- User Info -->
+            <div class="user-info">
+                <div class="user-name-sidebar" id="sidebar-user-name">Guest</div>
+                <div class="user-role">JEE ASPIRANT</div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ============================================ -->
+    <!-- MAIN CONTENT AREA                            -->
+    <!-- ============================================ -->
+    <main class="main-content">
+        <!-- Home Page -->
+        <div id="page-home" class="page-content page">
+            <div class="page-header">
+                <h1 class="page-title">Welcome to EigenX</h1>
+                <p class="page-subtitle">Your personal JEE exam preparation tracker</p>
+            </div>
+            <div class="page-card">
+                <div class="placeholder-content">
+                    <div class="placeholder-icon">🏠</div>
+                    <h2>Home Dashboard</h2>
+                    <p>Track your progress, manage tasks, and stay on top of your JEE preparation journey.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Subject Tasks Page -->
+        <div id="page-tasks" class="page-content page hidden">
+            <div class="page-header">
+                <h1 class="page-title">Subject Tasks</h1>
+                <p class="page-subtitle">Manage your Physics, Chemistry, and Mathematics tasks</p>
+            </div>
+            <div class="page-card">
+                <div class="placeholder-content">
+                    <div class="placeholder-icon">📝</div>
+                    <h2>Subject Tasks</h2>
+                    <p>Organize and track your subject-wise assignments and practice problems.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Syllabus Page -->
+        <div id="page-syllabus" class="page-content page hidden">
+            <div class="page-header">
+                <h1 class="page-title">Syllabus</h1>
+                <p class="page-subtitle">Complete JEE Main & Advanced syllabus overview</p>
+            </div>
+            <div class="page-card">
+                <div class="placeholder-content">
+                    <div class="placeholder-icon">📚</div>
+                    <h2>Syllabus Tracker</h2>
+                    <p>Monitor your progress through the complete JEE syllabus.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mock Tests Page -->
+        <div id="page-mock-tests" class="page-content page hidden">
+            <div class="page-header">
+                <h1 class="page-title">Mock Tests</h1>
+                <p class="page-subtitle">Practice with full-length mock examinations</p>
+            </div>
+            <div class="page-card">
+                <div class="placeholder-content">
+                    <div class="placeholder-icon">📊</div>
+                    <h2>Mock Tests</h2>
+                    <p>Take timed mock tests and analyze your performance.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Study Timer Page -->
+        <div id="page-timer" class="page-content page hidden">
+            <div class="page-header">
+                <h1 class="page-title">Study Timer</h1>
+                <p class="page-subtitle">Focus timer for productive study sessions</p>
+            </div>
+            <div class="page-card">
+                <div class="placeholder-content">
+                    <div class="placeholder-icon">⏱️</div>
+                    <h2>Study Timer</h2>
+                    <p>Use Pomodoro technique and track your study hours.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Habit Tracker Page -->
+        <div id="page-habits" class="page-content page hidden">
+            <div class="page-header">
+                <h1 class="page-title">Habit Tracker</h1>
+                <p class="page-subtitle">Build consistent study habits</p>
+            </div>
+            <div class="page-card">
+                <div class="placeholder-content">
+                    <div class="placeholder-icon">✅</div>
+                    <h2>Habit Tracker</h2>
+                    <p>Track daily habits and build a consistent routine.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Goals Page -->
+        <div id="page-goals" class="page-content page hidden">
+            <div class="page-header">
+                <h1 class="page-title">Goals</h1>
+                <p class="page-subtitle">Set and achieve your study milestones</p>
+            </div>
+            <div class="page-card">
+                <div class="placeholder-content">
+                    <div class="placeholder-icon">🎯</div>
+                    <h2>Goals</h2>
+                    <p>Set short-term and long-term goals for your preparation.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Page -->
+        <div id="page-profile" class="page-content page hidden">
+            <div class="page-header">
+                <h1 class="page-title">Profile</h1>
+                <p class="page-subtitle">Manage your account settings</p>
+            </div>
+            <div class="page-card">
+                <div class="placeholder-content">
+                    <div class="placeholder-icon">👤</div>
+                    <h2>User Profile</h2>
+                    <p>View and edit your profile information.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ============================================ -->
+    <!-- ONBOARDING SECTION (OVERLAY)                 -->
     <!-- Shown when no profile exists in localStorage -->
     <!-- ============================================ -->
-    <div id="onboarding-section" class="card">
-        <h1>EigenX</h1>
-        <p class="subtitle">Your JEE Exam Tracker</p>
-        
-        <form id="onboarding-form">
-            <!-- Name Field -->
-            <div class="form-group">
-                <label for="name">Full Name</label>
-                <input type="text" id="name" name="name" required placeholder="Enter your name">
-            </div>
-
-            <!-- Class Field -->
-            <div class="form-group">
-                <label for="class">Class</label>
-                <select id="class" name="class" required>
-                    <option value="" disabled selected>Select your class</option>
-                    <option value="11th">11th</option>
-                    <option value="12th">12th</option>
-                    <option value="Dropper">Dropper</option>
-                    <option value="Repeater">Repeater</option>
-                </select>
-            </div>
-
-            <!-- Gender Field -->
-            <div class="form-group">
-                <label for="gender">Gender</label>
-                <select id="gender" name="gender" required>
-                    <option value="" disabled selected>Select gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                </select>
-            </div>
-
-            <!-- Bio Field -->
-            <div class="form-group">
-                <label for="bio">Bio (Optional)</label>
-                <textarea id="bio" name="bio" maxlength="150" placeholder="Tell us about yourself (max 150 characters)"></textarea>
-                <div class="char-count"><span id="char-count">0</span>/150</div>
-            </div>
-
-            <!-- Submit Button -->
-            <button type="submit" class="btn">Get Started</button>
-        </form>
-    </div>
-
-    <!-- ============================================ -->
-    <!-- DASHBOARD SECTION                            -->
-    <!-- Shown when profile exists in localStorage    -->
-    <!-- ============================================ -->
-    <div id="dashboard-section" class="card hidden">
-        <h1>EigenX</h1>
-        <p class="subtitle">Welcome back!</p>
-        
-        <div class="dashboard-info">
-            <div class="user-name" id="display-name"></div>
-            <div class="user-class" id="display-class"></div>
+    <div id="onboarding-section" class="onboarding-container">
+        <div class="card">
+            <h1>EigenX</h1>
+            <p class="subtitle">Your JEE Exam Tracker</p>
             
-            <div class="coming-soon">
-                Navigation & features coming in next update
-            </div>
+            <form id="onboarding-form">
+                <!-- Name Field -->
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required placeholder="Enter your name">
+                </div>
+
+                <!-- Class Field -->
+                <div class="form-group">
+                    <label for="class">Class</label>
+                    <select id="class" name="class" required>
+                        <option value="" disabled selected>Select your class</option>
+                        <option value="11th">11th</option>
+                        <option value="12th">12th</option>
+                        <option value="Dropper">Dropper</option>
+                        <option value="Repeater">Repeater</option>
+                    </select>
+                </div>
+
+                <!-- Gender Field -->
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <select id="gender" name="gender" required>
+                        <option value="" disabled selected>Select gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+
+                <!-- Bio Field -->
+                <div class="form-group">
+                    <label for="bio">Bio (Optional)</label>
+                    <textarea id="bio" name="bio" maxlength="150" placeholder="Tell us about yourself (max 150 characters)"></textarea>
+                    <div class="char-count"><span id="char-count">0</span>/150</div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn">Get Started</button>
+            </form>
         </div>
     </div>
 
     <!-- ============================================ -->
     <!-- JAVASCRIPT LOGIC                             -->
-    <!-- Handles localStorage and UI toggling         -->
     <!-- ============================================ -->
     <script>
         // ============================================
@@ -291,16 +787,159 @@
         }
 
         // ============================================
-        // DOM ELEMENTS
+        // DOM ELEMENTS - NAVIGATION & UI
         // ============================================
         
         const onboardingSection = document.getElementById('onboarding-section');
-        const dashboardSection = document.getElementById('dashboard-section');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const sidebarUserName = document.getElementById('sidebar-user-name');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const pages = document.querySelectorAll('.page-content');
+
+        // Onboarding form elements
         const onboardingForm = document.getElementById('onboarding-form');
-        const displayName = document.getElementById('display-name');
-        const displayClass = document.getElementById('display-class');
         const bioInput = document.getElementById('bio');
         const charCountSpan = document.getElementById('char-count');
+
+        // ============================================
+        // THEME ENGINE
+        // ============================================
+
+        /**
+         * Apply theme to the document
+         * @param {string} theme - 'dark' or 'light'
+         */
+        function applyTheme(theme) {
+            if (theme === 'light') {
+                document.body.classList.remove('dark');
+                document.body.classList.add('light');
+                themeIcon.textContent = '☀️';
+            } else {
+                document.body.classList.remove('light');
+                document.body.classList.add('dark');
+                themeIcon.textContent = '🌙';
+            }
+        }
+
+        /**
+         * Load saved theme from localStorage
+         */
+        function loadTheme() {
+            const data = getData();
+            const savedTheme = data.theme || 'dark';
+            applyTheme(savedTheme);
+        }
+
+        /**
+         * Save theme preference to localStorage
+         * @param {string} theme - 'dark' or 'light'
+         */
+        function saveTheme(theme) {
+            const data = getData();
+            data.theme = theme;
+            saveData(data);
+        }
+
+        /**
+         * Toggle between dark and light themes
+         */
+        function toggleTheme() {
+            const isDark = document.body.classList.contains('dark');
+            const newTheme = isDark ? 'light' : 'dark';
+            applyTheme(newTheme);
+            saveTheme(newTheme);
+        }
+
+        // Theme toggle event listener
+        themeToggle.addEventListener('click', toggleTheme);
+
+        // ============================================
+        // MOBILE SIDEBAR TOGGLE
+        // ============================================
+
+        /**
+         * Open mobile sidebar
+         */
+        function openSidebar() {
+            sidebar.classList.add('open');
+            sidebarOverlay.classList.add('active');
+        }
+
+        /**
+         * Close mobile sidebar
+         */
+        function closeSidebar() {
+            sidebar.classList.remove('open');
+            sidebarOverlay.classList.remove('active');
+        }
+
+        // Hamburger button click
+        hamburgerBtn.addEventListener('click', openSidebar);
+
+        // Overlay click to close sidebar
+        sidebarOverlay.addEventListener('click', closeSidebar);
+
+        // ============================================
+        // PAGE SWITCHING LOGIC
+        // ============================================
+
+        /**
+         * Switch to a specific page
+         * @param {string} pageId - The page identifier (e.g., 'home', 'tasks')
+         */
+        function switchPage(pageId) {
+            // Remove active class from all nav links
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // Add active class to clicked link
+            const activeLink = document.querySelector(`.nav-link[data-page="${pageId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+
+            // Hide all pages
+            pages.forEach(page => {
+                page.classList.add('hidden');
+            });
+
+            // Show target page
+            const targetPage = document.getElementById(`page-${pageId}`);
+            if (targetPage) {
+                targetPage.classList.remove('hidden');
+            }
+
+            // Close mobile sidebar after navigation
+            if (window.innerWidth <= 768) {
+                closeSidebar();
+            }
+        }
+
+        // Add click listeners to all nav links
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = link.getAttribute('data-page');
+                switchPage(pageId);
+            });
+        });
+
+        // ============================================
+        // USER PROFILE INTEGRATION
+        // ============================================
+
+        /**
+         * Update sidebar with user's name
+         * @param {string} name - User's name
+         */
+        function updateSidebarUserName(name) {
+            sidebarUserName.textContent = name || 'Guest';
+        }
 
         // ============================================
         // CHARACTER COUNT FOR BIO TEXTAREA
@@ -310,27 +949,6 @@
             const currentLength = this.value.length;
             charCountSpan.textContent = currentLength;
         });
-
-        // ============================================
-        // SHOW DASHBOARD WITH USER INFO
-        // ============================================
-        
-        function showDashboard(profile) {
-            displayName.textContent = profile.name;
-            displayClass.textContent = `Class ${profile.class}`;
-            
-            onboardingSection.classList.add('hidden');
-            dashboardSection.classList.remove('hidden');
-        }
-
-        // ============================================
-        // SHOW ONBOARDING FORM
-        // ============================================
-        
-        function showOnboarding() {
-            dashboardSection.classList.add('hidden');
-            onboardingSection.classList.remove('hidden');
-        }
 
         // ============================================
         // HANDLE FORM SUBMISSION
@@ -353,8 +971,10 @@
             existingData.profile = profile;
             
             if (saveData(existingData)) {
-                // Switch to dashboard view
-                showDashboard(profile);
+                // Update UI with user info
+                updateSidebarUserName(profile.name);
+                // Hide onboarding section
+                onboardingSection.classList.add('hidden');
             } else {
                 alert('Failed to save profile. Please try again.');
             }
@@ -365,14 +985,19 @@
         // ============================================
         
         function init() {
+            // Load and apply saved theme first
+            loadTheme();
+
+            // Check for existing profile
             const data = getData();
             
             if (data.profile && data.profile.name) {
-                // Profile exists, show dashboard
-                showDashboard(data.profile);
+                // Profile exists, hide onboarding and show user info
+                onboardingSection.classList.add('hidden');
+                updateSidebarUserName(data.profile.name);
             } else {
-                // No profile, show onboarding
-                showOnboarding();
+                // No profile, keep onboarding visible
+                onboardingSection.classList.remove('hidden');
             }
         }
 
