@@ -5757,6 +5757,12 @@
             }
         }
 
+        // Expose functions to global scope for onclick handlers
+        window.openReportModal = openReportModal;
+        window.closeReportModal = closeReportModal;
+        window.generateAndPrintReport = generateAndPrintReport;
+        window.toggleDateInputs = toggleDateInputs;
+
         // Run initialization when DOM is ready
         document.addEventListener('DOMContentLoaded', init);
     </script>
