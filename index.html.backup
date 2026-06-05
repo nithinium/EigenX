@@ -13,53 +13,35 @@
            CSS VARIABLES FOR THEME ENGINE
            ============================================ */
         :root {
-            /* Dark Mode (Default) - Enhanced */
-            --bg-primary: #0a0a0f;
-            --bg-secondary: #12121a;
-            --bg-tertiary: #1e1e2e;
-            --text-primary: #f0f0f5;
-            --text-secondary: #a8a8b3;
-            --text-muted: #6b6b75;
-            --border-color: #2d2d3a;
-            --accent-color: #6366f1;
-            --accent-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
-            --accent-hover: #4f46e5;
-            --card-bg: rgba(18, 18, 26, 0.8);
-            --sidebar-bg: rgba(18, 18, 26, 0.95);
-            --overlay-bg: rgba(0, 0, 0, 0.75);
-            --glow-shadow: 0 0 40px rgba(99, 102, 241, 0.15);
-            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            --success-color: #10b981;
-            --warning-color: #f59e0b;
-            --danger-color: #ef4444;
-            --math-color: #3b82f6;
-            --physics-color: #10b981;
-            --chemistry-color: #f59e0b;
+            /* Dark Mode (Default) */
+            --bg-primary: #09090b;
+            --bg-secondary: #18181b;
+            --bg-tertiary: #27272a;
+            --text-primary: #e2e8f0;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --border-color: #3f3f46;
+            --accent-color: #3b82f6;
+            --accent-hover: #2563eb;
+            --card-bg: #18181b;
+            --sidebar-bg: #18181b;
+            --overlay-bg: rgba(0, 0, 0, 0.7);
         }
 
-        /* Light Mode Variables - Enhanced */
+        /* Light Mode Variables */
         body.light {
             --bg-primary: #f8fafc;
             --bg-secondary: #ffffff;
             --bg-tertiary: #f1f5f9;
-            --text-primary: #1e293b;
+            --text-primary: #0f172a;
             --text-secondary: #475569;
             --text-muted: #94a3b8;
             --border-color: #e2e8f0;
-            --accent-color: #6366f1;
-            --accent-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
-            --accent-hover: #4f46e5;
-            --card-bg: rgba(255, 255, 255, 0.9);
-            --sidebar-bg: rgba(255, 255, 255, 0.95);
+            --accent-color: #3b82f6;
+            --accent-hover: #2563eb;
+            --card-bg: #ffffff;
+            --sidebar-bg: #ffffff;
             --overlay-bg: rgba(0, 0, 0, 0.5);
-            --glow-shadow: 0 0 40px rgba(99, 102, 241, 0.2);
-            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-            --success-color: #10b981;
-            --warning-color: #f59e0b;
-            --danger-color: #ef4444;
-            --math-color: #3b82f6;
-            --physics-color: #10b981;
-            --chemistry-color: #f59e0b;
         }
 
         /* ============================================
@@ -87,33 +69,11 @@
         }
 
         body {
-            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-primary);
             color: var(--text-primary);
             min-height: 100vh;
             transition: background-color 0.3s ease, color 0.3s ease;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        /* Add subtle animated background gradient */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(ellipse at top right, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
-                        radial-gradient(ellipse at bottom left, rgba(139, 92, 246, 0.06) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: -1;
-            animation: bgPulse 15s ease-in-out infinite alternate;
-        }
-
-        @keyframes bgPulse {
-            0% { opacity: 0.5; }
-            100% { opacity: 1; }
         }
 
         /* ============================================
@@ -133,31 +93,23 @@
             width: 260px;
             height: 100vh;
             background-color: var(--sidebar-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border-right: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
             padding: 1.5rem;
             z-index: 1000;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: background-color 0.3s ease, transform 0.3s ease;
             will-change: transform;
-            box-shadow: 4px 0 24px rgba(0, 0, 0, 0.2);
         }
 
         /* Sidebar Logo */
         .sidebar-logo {
             font-size: 1.75rem;
-            font-weight: 800;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-weight: 700;
+            color: var(--accent-color);
             margin-bottom: 2rem;
             padding-bottom: 1rem;
             border-bottom: 1px solid var(--border-color);
-            letter-spacing: -0.5px;
-            text-shadow: 0 0 30px rgba(99, 102, 241, 0.3);
         }
 
         /* Navigation Links */
@@ -177,46 +129,24 @@
             padding: 0.875rem 1rem;
             color: var(--text-secondary);
             text-decoration: none;
-            border-radius: 0.75rem;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
             cursor: pointer;
             border-left: 3px solid transparent;
             min-height: 44px;
-            will-change: background-color, border-left-color, transform;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-link::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 0;
-            height: 100%;
-            background: var(--accent-gradient);
-            opacity: 0;
-            transition: all 0.3s ease;
-            z-index: -1;
+            will-change: background-color, border-left-color;
         }
 
         .nav-link:hover {
             background-color: var(--bg-tertiary);
             color: var(--text-primary);
-            transform: translateX(4px);
-        }
-
-        .nav-link:hover::before {
-            width: 100%;
-            opacity: 0.1;
         }
 
         .nav-link.active {
             border-left-color: var(--accent-color);
-            background: linear-gradient(90deg, rgba(99, 102, 241, 0.15) 0%, transparent 100%);
+            background-color: rgba(59, 130, 246, 0.1);
             color: var(--accent-color);
-            box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
-            font-weight: 600;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
         }
 
         .nav-icon {
@@ -299,53 +229,22 @@
 
         .page-title {
             font-size: 2rem;
-            font-weight: 800;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-weight: 700;
+            color: var(--text-primary);
             margin-bottom: 0.5rem;
-            letter-spacing: -0.5px;
         }
 
         .page-subtitle {
             color: var(--text-secondary);
             font-size: 1rem;
-            font-weight: 400;
         }
 
         .page-card {
             background-color: var(--card-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 1.25rem;
+            border-radius: 1rem;
             padding: 2.5rem;
-            box-shadow: var(--card-shadow);
-            border: 1px solid var(--border-color);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .page-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--accent-gradient);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .page-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), var(--glow-shadow);
-        }
-
-        .page-card:hover::before {
-            opacity: 1;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
         }
 
         .placeholder-content {
@@ -477,14 +376,14 @@
         select,
         textarea {
             width: 100%;
-            padding: 0.875rem 1.25rem;
+            padding: 0.75rem 1rem;
             background-color: var(--bg-tertiary);
             border: 2px solid var(--border-color);
-            border-radius: 0.75rem;
+            border-radius: 0.5rem;
             color: var(--text-primary);
             font-size: 1rem;
             font-family: inherit;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: border-color 0.2s ease, background-color 0.3s ease;
         }
 
         input[type="text"]:focus,
@@ -494,8 +393,6 @@
         input[type="date"]:focus {
             outline: none;
             border-color: var(--accent-color);
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
-            background-color: var(--bg-secondary);
         }
 
         /* Invalid field styling - red glow */
@@ -504,7 +401,7 @@
         input[type="number"].invalid,
         input[type="date"].invalid {
             border-color: #ef4444 !important;
-            box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.2) !important;
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.5) !important;
         }
 
         textarea {
@@ -523,41 +420,22 @@
         .btn {
             width: 100%;
             padding: 0.875rem 1.5rem;
-            background: var(--accent-gradient);
+            background-color: var(--accent-color);
             color: #ffffff;
             border: none;
-            border-radius: 0.75rem;
+            border-radius: 0.5rem;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
+            transition: background-color 0.2s ease, transform 0.1s ease;
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
-        }
-
-        .btn:hover::before {
-            left: 100%;
+            background-color: var(--accent-hover);
         }
 
         .btn:active {
-            transform: scale(0.98) translateY(0);
+            transform: scale(0.98);
         }
 
         /* Dashboard Styles */
@@ -568,13 +446,9 @@
 
         .user-name-display {
             font-size: 1.75rem;
-            font-weight: 800;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-weight: 700;
+            color: var(--accent-color);
             margin-bottom: 0.5rem;
-            letter-spacing: -0.5px;
         }
 
         .user-class-display {
@@ -845,12 +719,9 @@
         
         .section-title {
             font-size: 1.25rem;
-            font-weight: 700;
+            font-weight: 600;
             color: var(--text-primary);
             margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
         }
 
         .task-generator-card,
@@ -3989,230 +3860,6 @@
             const date = new Date(dateString);
             const options = { month: 'short', day: 'numeric' };
             return date.toLocaleDateString('en-US', options);
-        }
-
-        // ============================================
-        // DASHBOARD MODULE - Consistency Tracker & Tasks
-        // ============================================
-        
-        let dashboardTaskFilter = 'all';
-        
-        /**
-         * Render Today's Pending Tasks on Dashboard
-         */
-        function renderDashboardTasksList() {
-            const tasks = getTasks();
-            const today = getTodayDateString();
-            
-            // Filter tasks for today
-            let filteredTasks = tasks.filter(task => task.date === today);
-            
-            // Apply subject filter
-            if (dashboardTaskFilter !== 'all') {
-                filteredTasks = filteredTasks.filter(task => task.subject === dashboardTaskFilter);
-            }
-            
-            // Sort: incomplete first, then completed
-            filteredTasks.sort((a, b) => {
-                if (a.completed === b.completed) return 0;
-                return a.completed ? 1 : -1;
-            });
-            
-            const container = document.getElementById('dashboard-tasks-list');
-            
-            if (filteredTasks.length === 0) {
-                const subjectName = dashboardTaskFilter === 'all' ? 'any subject' : 
-                    dashboardTaskFilter.charAt(0).toUpperCase() + dashboardTaskFilter.slice(1);
-                container.innerHTML = `
-                    <div class="dashboard-empty-state">
-                        <div class="dashboard-empty-icon">📋</div>
-                        <p>No pending tasks for ${subjectName} today.</p>
-                        <p style="font-size: 0.85rem; margin-top: 0.5rem; color: var(--text-muted);">Add tasks from the Tasks page!</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            container.innerHTML = filteredTasks.map(task => {
-                const subjectBadges = {
-                    math: 'badge-math',
-                    physics: 'badge-physics',
-                    chemistry: 'badge-chemistry'
-                };
-                const subjectNames = {
-                    math: 'Math',
-                    physics: 'Physics',
-                    chemistry: 'Chemistry'
-                };
-                
-                return `
-                    <div class="dashboard-task-card ${task.completed ? 'completed' : ''}">
-                        <span class="dashboard-task-subject-badge ${subjectBadges[task.subject]}">
-                            ${subjectNames[task.subject]}
-                        </span>
-                        <span class="task-name-display">${escapeHtml(task.name)}</span>
-                        <input 
-                            type="checkbox" 
-                            class="dashboard-task-checkbox" 
-                            ${task.completed ? 'checked' : ''}
-                            onchange="toggleDashboardTask('${task.id}')"
-                        >
-                    </div>
-                `;
-            }).join('');
-        }
-        
-        /**
-         * Toggle task completion from dashboard
-         */
-        function toggleDashboardTask(taskId) {
-            const tasks = getTasks();
-            const task = tasks.find(t => t.id === taskId);
-            const today = getTodayDateString();
-            
-            if (task && task.date >= today) {
-                task.completed = !task.completed;
-                saveTasks(tasks);
-                renderDashboardTasksList();
-                renderTasks();
-                updateProgress();
-                renderDashboardConsistencyChart();
-            }
-        }
-        
-        /**
-         * Render Consistency Chart for Last 30 Days
-         */
-        function renderDashboardConsistencyChart() {
-            const container = document.getElementById('consistency-chart-container');
-            const tasks = getTasks();
-            
-            if (tasks.length === 0) {
-                container.innerHTML = `
-                    <div class="chart-placeholder">
-                        <div class="placeholder-icon">📊</div>
-                        <p>Start tracking tasks to see consistency data</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            // Get last 30 days
-            const today = new Date();
-            const last30Days = [];
-            
-            for (let i = 29; i >= 0; i--) {
-                const date = new Date(today);
-                date.setDate(date.getDate() - i);
-                last30Days.push(date);
-            }
-            
-            // Calculate daily scores based on tasks completed
-            const dailyData = last30Days.map(date => {
-                const dateStr = date.toISOString().split('T')[0];
-                const dayTasks = tasks.filter(t => t.date === dateStr);
-                const completedCount = dayTasks.filter(t => t.completed).length;
-                const totalCount = dayTasks.length;
-                const score = totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
-                
-                return {
-                    date,
-                    dateStr,
-                    completed: completedCount,
-                    total: totalCount,
-                    score
-                };
-            });
-            
-            // Generate SVG chart
-            const width = 100;
-            const height = 200;
-            const barWidth = 2.5;
-            const gap = 0.5;
-            const startX = 5;
-            
-            let svgContent = `<svg class="consistency-chart-svg" viewBox="0 0 ${width} ${height}" preserveAspectRatio="none">`;
-            
-            // Draw bars
-            dailyData.forEach((day, index) => {
-                const x = startX + index * (barWidth + gap);
-                const barHeight = (day.score / 100) * (height - 20);
-                const y = height - barHeight - 10;
-                
-                const color = day.score >= 80 ? '#10b981' : day.score >= 50 ? '#f59e0b' : '#ef4444';
-                
-                svgContent += `
-                    <rect 
-                        x="${x}" 
-                        y="${y}" 
-                        width="${barWidth}" 
-                        height="${barHeight}" 
-                        fill="${color}" 
-                        rx="1"
-                        class="consistency-bar"
-                        data-date="${day.dateStr}"
-                        data-completed="${day.completed}"
-                        data-total="${day.total}"
-                        data-score="${day.score.toFixed(0)}"
-                    />
-                `;
-            });
-            
-            svgContent += '</svg>';
-            
-            container.innerHTML = svgContent;
-            
-            // Add tooltip functionality
-            const bars = container.querySelectorAll('.consistency-bar');
-            const tooltip = document.getElementById('consistency-tooltip');
-            
-            bars.forEach(bar => {
-                bar.addEventListener('mouseenter', (e) => {
-                    const dateStr = bar.getAttribute('data-date');
-                    const completed = bar.getAttribute('data-completed');
-                    const total = bar.getAttribute('data-total');
-                    const score = bar.getAttribute('data-score');
-                    
-                    const date = new Date(dateStr);
-                    const dateLabel = date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-                    
-                    tooltip.innerHTML = `
-                        <h4>${dateLabel}</h4>
-                        <div class="consistency-tooltip-row">
-                            <span class="consistency-tooltip-label">Tasks Completed:</span>
-                            <span class="consistency-tooltip-value">${completed}/${total}</span>
-                        </div>
-                        <div class="consistency-tooltip-row">
-                            <span class="consistency-tooltip-label">Score:</span>
-                            <span class="consistency-tooltip-value">${score}%</span>
-                        </div>
-                    `;
-                    tooltip.classList.remove('hidden');
-                });
-                
-                bar.addEventListener('mousemove', (e) => {
-                    const rect = container.getBoundingClientRect();
-                    tooltip.style.left = (e.clientX - rect.left + 10) + 'px';
-                    tooltip.style.top = (e.clientY - rect.top - 10) + 'px';
-                });
-                
-                bar.addEventListener('mouseleave', () => {
-                    tooltip.classList.add('hidden');
-                });
-            });
-        }
-        
-        // Initialize dashboard filter tabs
-        function initDashboardFilterTabs() {
-            const filterTabs = document.querySelectorAll('.filter-tab-btn');
-            filterTabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    filterTabs.forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-                    dashboardTaskFilter = this.getAttribute('data-filter');
-                    renderDashboardTasksList();
-                });
-            });
         }
 
         // ============================================
