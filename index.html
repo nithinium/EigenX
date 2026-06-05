@@ -5602,63 +5602,103 @@
             }
         }
         
+        // ============================================
+        // PDF REPORT GENERATOR - COMPLETELY REWRITTEN
+        // ============================================
+        
         function openReportModal() {
-            document.getElementById('report-modal').classList.remove('hidden');
-            toggleDateInputs();
+            const modal = document.getElementById('report-modal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                toggleDateInputs();
+            } else {
+                console.error('Report modal not found');
+            }
         }
         
         function closeReportModal() {
-            document.getElementById('report-modal').classList.add('hidden');
+            const modal = document.getElementById('report-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+            }
+        }
+        
+        function toggleDateInputs() {
+            const customRadio = document.querySelector('input[name="date-range"][value="custom"]');
+            const customInputs = document.getElementById('custom-date-inputs');
+            if (customRadio && customInputs) {
+                if (customRadio.checked) {
+                    customInputs.classList.remove('hidden');
+                    const today = new Date().toISOString().split('T')[0];
+                    const lastWeek = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+                    document.getElementById('report-date-from').value = lastWeek;
+                    document.getElementById('report-date-to').value = today;
+                } else {
+                    customInputs.classList.add('hidden');
+                }
+            }
         }
         
         function generateAndPrintReport() {
-            const isCustom = document.querySelector('input[name="date-range"][value="custom"]').checked;
-            let fromDate, toDate;
-            
-            if (isCustom) {
-                const fromVal = document.getElementById('report-date-from').value;
-                const toVal = document.getElementById('report-date-to').value;
+            try {
+                console.log('Starting PDF generation...');
                 
-                if (!fromVal || !toVal) {
-                    alert('Please select both start and end dates.');
-                    return;
+                // Get date range
+                const isCustom = document.querySelector('input[name="date-range"][value="custom"]').checked;
+                let fromDate, toDate;
+                
+                if (isCustom) {
+                    const fromVal = document.getElementById('report-date-from').value;
+                    const toVal = document.getElementById('report-date-to').value;
+                    
+                    if (!fromVal || !toVal) {
+                        alert('Please select both start and end dates.');
+                        return;
+                    }
+                    
+                    fromDate = new Date(fromVal);
+                    toDate = new Date(toVal);
+                    
+                    if (fromDate > toDate) {
+                        alert('Start date cannot be after end date.');
+                        return;
+                    }
+                } else {
+                    toDate = new Date();
+                    fromDate = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
                 }
                 
-                fromDate = new Date(fromVal);
-                toDate = new Date(toVal);
+                // Load data directly from localStorage
+                const storageData = localStorage.getItem('eigenx_data');
+                const appData = storageData ? JSON.parse(storageData) : {};
                 
-                // Validate date range
-                if (fromDate > toDate) {
-                    alert('Start date cannot be after end date.');
-                    return;
-                }
-            } else {
-                toDate = new Date();
-                fromDate = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-            }
-            
-            const data = getData();
-            const profile = data.profile || {};
-            
-            // Filter data by date range
-            const filteredTests = (data.mockTests || []).filter(t => {
-                if (!t.date) return false;
-                const testDate = new Date(t.date);
-                return testDate >= fromDate && testDate <= toDate;
-            });
-            
-            const filteredLogs = (data.timerLogs || []).filter(l => {
-                const logDate = new Date(l.timestamp || l.date);
-                return logDate >= fromDate && logDate <= toDate;
-            });
-            
-            // Calculate totals
-            const totalSeconds = filteredLogs.reduce((sum, log) => sum + (log.durationSeconds || 0), 0);
-            const totalHours = (totalSeconds / 3600).toFixed(1);
-            
-            let totalQuestions = 0;
-            if (data.syllabus && Array.isArray(data.syllabus)) {
-                data.syllabus.forEach(subject => {
+                const profile = appData.profile || { name: 'Student', class: 'Class 11', gender: 'male', bio: 'Dream big, work hard.' };
+                const habits = Array.isArray(appData.habits) ? appData.habits : [];
+                const tasks = Array.isArray(appData.tasks) ? appData.tasks : [];
+                const mockTests = Array.isArray(appData.mockTests) ? appData.mockTests : [];
+                const timerLogs = Array.isArray(appData.timerLogs) ? appData.timerLogs : [];
+                const syllabus = Array.isArray(appData.syllabus) ? appData.syllabus : [];
+                
+                console.log('Loaded data:', { habitsCount: habits.length, tasksCount: tasks.length, testsCount: mockTests.length });
+                
+                // Filter mock tests by date range
+                const filteredTests = mockTests.filter(t => {
+                    if (!t.date) return false;
+                    const testDate = new Date(t.date);
+                    return testDate >= fromDate && testDate <= toDate;
+                });
+                
+                // Calculate study hours from timer logs
+                const filteredLogs = timerLogs.filter(l => {
+                    const logDate = new Date(l.timestamp || l.date);
+                    return logDate >= fromDate && logDate <= toDate;
+                });
+                const totalSeconds = filteredLogs.reduce((sum, log) => sum + (parseInt(log.durationSeconds) || 0), 0);
+                const totalHours = (totalSeconds / 3600).toFixed(1);
+                
+                // Calculate total questions completed
+                let totalQuestions = 0;
+                syllabus.forEach(subject => {
                     if (subject.topics && Array.isArray(subject.topics)) {
                         subject.topics.forEach(topic => {
                             if (topic.questions && Array.isArray(topic.questions)) {
@@ -5667,55 +5707,527 @@
                         });
                     }
                 });
-            }
-            
-            const avgPercentage = filteredTests.length > 0 
-                ? (filteredTests.reduce((sum, t) => sum + (t.percentage || 0), 0) / filteredTests.length).toFixed(1)
-                : 0;
-            
-            // Calculate consistency score from habits
-            let consistencyData = [];
-            const habits = data.habits || [];
-            for (let d = new Date(fromDate); d <= toDate; d.setDate(d.getDate() + 1)) {
-                const dateStr = d.toISOString().split('T')[0];
-                let completedCount = 0;
-                habits.forEach(habit => {
-                    if (habit.completions[dateStr] === true) completedCount++;
+                
+                // Calculate average percentage
+                const avgPercentage = filteredTests.length > 0 
+                    ? (filteredTests.reduce((sum, t) => sum + (parseFloat(t.percentage) || 0), 0) / filteredTests.length).toFixed(1)
+                    : '0';
+                
+                // Calculate task completion stats
+                const filteredTasks = tasks.filter(t => {
+                    if (!t.date) return false;
+                    const taskDate = new Date(t.date);
+                    return taskDate >= fromDate && taskDate <= toDate;
                 });
-                const totalHabits = habits.length;
-                const score = totalHabits > 0 ? (completedCount / totalHabits) * 100 : 0;
-                consistencyData.push({ date: new Date(dateStr), score, completed: completedCount, total: totalHabits });
-            }
-            
-            // Calculate task completion stats
-            const tasks = data.tasks || [];
-            const filteredTasks = tasks.filter(t => {
-                if (!t.date) return false;
-                const taskDate = new Date(t.date);
-                return taskDate >= fromDate && taskDate <= toDate;
-            });
-            const completedTasks = filteredTasks.filter(t => t.completed).length;
-            const totalTasksCount = filteredTasks.length;
-            const taskCompletionRate = totalTasksCount > 0 ? ((completedTasks / totalTasksCount) * 100).toFixed(1) : 0;
-            
-            // Check if there's any data to display
-            const hasData = totalHours > 0 || totalQuestions > 0 || filteredTests.length > 0 || habits.length > 0;
-            
-            // Generate report HTML with professional styling
-            const reportHtml = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>EigenX Progress Report</title><style>@media print{@page{margin:1.5cm;size:A4}body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);min-height:100vh;padding:40px 20px}.report-container{max-width:800px;margin:0 auto;background:#fff;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,.3);overflow:hidden}.report-header{background:linear-gradient(135deg,#6366f1,#8b5cf6,#a855f7);padding:40px;text-align:center;color:#fff}.report-header h1{font-size:2.5rem;font-weight:800;margin-bottom:10px}.logo-icon{font-size:3rem;margin-bottom:10px}.student-section{background:#f8fafc;padding:30px 40px;border-bottom:1px solid #e2e8f0}.student-info{display:flex;align-items:center;gap:20px;margin-bottom:15px}.avatar{width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#a855f7);display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:700;color:#fff}.student-details h2{font-size:1.5rem;color:#1e293b;margin-bottom:5px}.student-details p{color:#64748b}.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px;margin-top:20px}.stat-card{background:#fff;padding:20px;border-radius:12px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,.08);border:1px solid #e2e8f0}.stat-card .label{font-size:.8rem;color:#64748b;text-transform:uppercase;margin-bottom:8px}.stat-card .value{font-size:1.8rem;font-weight:700;color:#6366f1}.section{padding:30px 40px;border-bottom:1px solid #e2e8f0}.section:last-child{border-bottom:none}.section-title{font-size:1.3rem;font-weight:700;color:#1e293b;margin-bottom:20px;display:flex;align-items:center;gap:10px}.table-container{overflow-x:auto}table{width:100%;border-collapse:collapse;margin-top:15px}th,td{padding:12px 15px;text-align:left;border-bottom:1px solid #e2e8f0}th{background:#f1f5f9;font-weight:600;color:#475569;font-size:.85rem}td{color:#334155}.report-footer{background:#1e293b;color:#fff;padding:25px 40px;text-align:center}.progress-bar-bg{background:#e2e8f0;border-radius:10px;height:20px;overflow:hidden;margin:15px 0}.progress-bar-fill{height:100%;background:linear-gradient(90deg,#6366f1,#a855f7);border-radius:10px}.insight{background:linear-gradient(135deg,rgba(99,102,241,.1),rgba(168,85,247,.1));border-left:4px solid #6366f1;padding:15px 20px;border-radius:8px;margin-top:15px;color:#475569}</style></head><body><div class="report-container"><div class="report-header"><div class="logo-icon">🚀</div><h1>EigenX</h1><p>JEE Exam Tracker - Progress Report</p></div><div class="student-section"><div class="student-info"><div class="avatar">${profile.name?profile.name.split(" ").map(n=>n[0]).join("").toUpperCase().slice(0,2):"EX"}</div><div class="student-details"><h2>${profile.name||"Student"}</h2><p>${profile.class||"Class"} • ${profile.gender==="female"?"Female":"Male"}</p><p style="margin-top:8px;font-style:italic">"${profile.bio||"Dream big, work hard."}"</p></div></div><div style="background:#fff;padding:20px;border-radius:12px;margin-top:20px;display:flex;justify-content:space-between"><span style="color:#64748b">Report Period</span><span style="font-weight:600;color:#1e293b">${fromDate.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})} - ${toDate.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})}</span></div></div><div class="section"><h3 class="section-title">📊 Performance Overview</h3><div class="stats-grid"><div class="stat-card"><div class="label">Study Hours</div><div class="value">${totalHours}h</div></div><div class="stat-card"><div class="label">Questions</div><div class="value">${totalQuestions}</div></div><div class="stat-card"><div class="label">Mock Tests</div><div class="value">${filteredTests.length}</div></div><div class="stat-card"><div class="label">Avg Score</div><div class="value">${avgPercentage}%</div></div></div></div><div class="section"><h3 class="section-title">📈 Consistency Tracker</h3><div class="stats-grid" style="grid-template-columns:repeat(2,1fr)"><div class="stat-card"><div class="label">Tasks Done</div><div class="value">${completedTasks}/${totalTasksCount}</div><div style="margin-top:10px"><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${taskCompletionRate}%"></div></div><div style="font-size:.85rem;color:#64748b;margin-top:5px">${taskCompletionRate}% rate</div></div></div><div class="stat-card"><div class="label">Habits</div><div class="value">${habits.length>0?"Active":"N/A"}</div><div style="font-size:.85rem;color:#64748b;margin-top:10px">${habits.length} tracked</div></div></div><div class="insight"><strong>💡 Insight:</strong> ${taskCompletionRate>=80?"Excellent! You're maintaining great consistency. Keep it up!":taskCompletionRate>=50?"Good progress! Try to complete more tasks daily.":"Let's build consistency. Start with small daily goals."}</div></div>${filteredTests.length>0?'<div class="section"><h3 class="section-title">📝 Mock Tests</h3><div class="table-container"><table><thead><tr><th>Date</th><th>Name</th><th>Category</th><th>Score</th><th>%</th></tr></thead><tbody>'+filteredTests.map(t=>'<tr><td>'+new Date(t.date).toLocaleDateString()+'</td><td>'+t.name+'</td><td><span style="background:#e0e7ff;color:#6366f1;padding:3px 10px;border-radius:12px;font-size:.8rem">'+t.category+'</span></td><td>'+t.obtained+'/'+t.total+'</td><td style="color:'+(t.percentage>=80?'#10b981':t.percentage>=50?'#f59e0b':'#ef4444')+';font-weight:bold">'+t.percentage+'%</td></tr>').join("")+'</tbody></table></div></div>':''}<div class="report-footer"><p><strong>Generated by EigenX</strong> on ${new Date().toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric"})}</p><p style="margin-top:8px;font-size:.8rem">Keep pushing forward. Success is a journey.</p></div></div></body></html>`;
-            
-            // Create a new window for printing
-            const printWindow = window.open('', '_blank');
-            printWindow.document.write(reportHtml);
-            printWindow.document.close();
-            
-            closeReportModal();
-            
-            setTimeout(() => {
-                printWindow.focus();
-                printWindow.print();
-            }, 500);
+                const completedTasks = filteredTasks.filter(t => t.completed === true).length;
+                const totalTasksCount = filteredTasks.length;
+                const taskCompletionRate = totalTasksCount > 0 ? ((completedTasks / totalTasksCount) * 100).toFixed(1) : '0';
+                
+                // Calculate habit consistency for the period
+                let habitDaysCompleted = 0;
+                let totalHabitDays = 0;
+                const todayStr = new Date().toISOString().split('T')[0];
+                
+                for (let d = new Date(fromDate); d <= toDate; d.setDate(d.getDate() + 1)) {
+                    const dateStr = d.toISOString().split('T')[0];
+                    habits.forEach(habit => {
+                        if (habit.completions && habit.completions[dateStr] === true) {
+                            habitDaysCompleted++;
+                        }
+                        totalHabitDays++;
+                    });
+                }
+                const habitConsistencyRate = totalHabitDays > 0 ? ((habitDaysCompleted / totalHabitDays) * 100).toFixed(1) : '0';
+                
+                // Generate initials for avatar
+                const initials = profile.name ? profile.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : 'EX';
+                const fromDateStr = fromDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                const toDateStr = toDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                const generatedDate = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+                
+                // Build mock tests table HTML
+                let testsTableHtml = '';
+                if (filteredTests.length > 0) {
+                    testsTableHtml = `
+                        <div class="section">
+                            <h3 class="section-title">📝 Mock Tests Performance</h3>
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Test Name</th>
+                                            <th>Category</th>
+                                            <th>Score</th>
+                                            <th>Percentage</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${filteredTests.map(t => {
+                                            const scoreColor = parseFloat(t.percentage) >= 80 ? '#10b981' : parseFloat(t.percentage) >= 50 ? '#f59e0b' : '#ef4444';
+                                            return `
+                                                <tr>
+                                                    <td>${new Date(t.date).toLocaleDateString()}</td>
+                                                    <td>${t.name || 'N/A'}</td>
+                                                    <td><span class="category-badge">${t.category || 'General'}</span></td>
+                                                    <td>${t.obtained || 0}/${t.total || 0}</td>
+                                                    <td style="color: ${scoreColor}; font-weight: bold;">${t.percentage || 0}%</td>
+                                                </tr>
+                                            `;
+                                        }).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                // Generate insight message
+                const overallScore = (parseFloat(taskCompletionRate) + parseFloat(habitConsistencyRate)) / 2;
+                let insightMessage = '';
+                let insightIcon = '';
+                if (overallScore >= 80) {
+                    insightIcon = '🌟';
+                    insightMessage = 'Outstanding! You\'re maintaining excellent consistency across all areas. Keep up the fantastic work!';
+                } else if (overallScore >= 60) {
+                    insightIcon = '👍';
+                    insightMessage = 'Good progress! You\'re on the right track. Try to complete more tasks daily to boost your consistency.';
+                } else if (overallScore >= 40) {
+                    insightIcon = '💪';
+                    insightMessage = 'You can do better! Start with small daily goals and gradually build up your study routine.';
+                } else {
+                    insightIcon = '🚀';
+                    insightMessage = 'Let\'s start fresh! Set realistic daily targets and focus on building consistent habits.';
+                }
+                
+                // Complete HTML report
+                const reportHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EigenX Progress Report - ${profile.name}</title>
+    <style>
+        @media print {
+            @page { margin: 1.5cm; size: A4; }
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .no-print { display: none; }
         }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+        .report-container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.35);
+            overflow: hidden;
+        }
+        .report-header {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+            padding: 50px 40px;
+            text-align: center;
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+        .report-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(180deg); }
+        }
+        .logo-icon { font-size: 3.5rem; margin-bottom: 15px; position: relative; z-index: 1; }
+        .report-header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+            position: relative;
+            z-index: 1;
+        }
+        .report-header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+        .student-section {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            padding: 35px 40px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .student-info {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            margin-bottom: 20px;
+        }
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffffff;
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+            flex-shrink: 0;
+        }
+        .student-details h2 {
+            font-size: 1.8rem;
+            color: #1e293b;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        .student-details p {
+            color: #64748b;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+        .student-quote {
+            margin-top: 15px;
+            padding: 15px 20px;
+            background: #ffffff;
+            border-radius: 10px;
+            border-left: 4px solid #6366f1;
+            font-style: italic;
+            color: #475569;
+            font-size: 0.95rem;
+        }
+        .report-period {
+            background: #ffffff;
+            padding: 20px 25px;
+            border-radius: 12px;
+            margin-top: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+        .period-label { color: #64748b; font-size: 0.9rem; }
+        .period-dates { font-weight: 600; color: #1e293b; font-size: 1rem; }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+        .stat-card {
+            background: #ffffff;
+            padding: 25px 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.3s ease;
+        }
+        .stat-card:hover { transform: translateY(-5px); }
+        .stat-card .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        .stat-card .value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .section {
+            padding: 35px 40px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .section:last-child { border-bottom: none; }
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+        .consistency-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .consistency-card {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+        }
+        .consistency-card .card-label {
+            font-size: 0.85rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        .consistency-card .card-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 15px;
+        }
+        .progress-bar-bg {
+            background: #e2e8f0;
+            border-radius: 10px;
+            height: 25px;
+            overflow: hidden;
+            margin: 15px 0;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #6366f1 0%, #a855f7 100%);
+            border-radius: 10px;
+            transition: width 1s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .insight-box {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%);
+            border-left: 5px solid #6366f1;
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 25px;
+            color: #475569;
+            line-height: 1.7;
+        }
+        .insight-box strong {
+            color: #6366f1;
+            font-size: 1.1rem;
+        }
+        .table-container {
+            overflow-x: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #ffffff;
+        }
+        th, td {
+            padding: 15px 18px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        th {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            font-weight: 700;
+            color: #475569;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        tr:last-child td { border-bottom: none; }
+        tr:hover { background: #f8fafc; }
+        .category-badge {
+            background: linear-gradient(135deg, #e0e7ff 0%, #ddd6fe 100%);
+            color: #6366f1;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .report-footer {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: #ffffff;
+            padding: 30px 40px;
+            text-align: center;
+        }
+        .report-footer p { margin-bottom: 10px; }
+        .report-footer .footer-note {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-top: 15px;
+        }
+        .print-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .print-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <button class="print-btn no-print" onclick="window.print()">🖨️ Print / Save as PDF</button>
+    
+    <div class="report-container">
+        <!-- Header -->
+        <div class="report-header">
+            <div class="logo-icon">🚀</div>
+            <h1>EigenX</h1>
+            <p>JEE Exam Tracker - Official Progress Report</p>
+        </div>
+        
+        <!-- Student Information -->
+        <div class="student-section">
+            <div class="student-info">
+                <div class="avatar">${initials}</div>
+                <div class="student-details">
+                    <h2>${profile.name || 'Student'}</h2>
+                    <p>${profile.class || 'Class 11'} • ${profile.gender === 'female' ? 'Female' : 'Male'}</p>
+                </div>
+            </div>
+            <div class="student-quote">"${profile.bio || 'Dream big, work hard.'}"</div>
+            
+            <div class="report-period">
+                <span class="period-label">📅 Report Period</span>
+                <span class="period-dates">${fromDateStr} - ${toDateStr}</span>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="label">⏱️ Study Hours</div>
+                    <div class="value">${totalHours}h</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">❓ Questions Solved</div>
+                    <div class="value">${totalQuestions}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">📋 Mock Tests</div>
+                    <div class="value">${filteredTests.length}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">📊 Average Score</div>
+                    <div class="value">${avgPercentage}%</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Consistency Tracker -->
+        <div class="section">
+            <h3 class="section-title">📈 Consistency Analysis</h3>
+            <div class="consistency-grid">
+                <div class="consistency-card">
+                    <div class="card-label">Task Completion Rate</div>
+                    <div class="card-value">${completedTasks} / ${totalTasksCount} Tasks</div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" style="width: ${Math.min(100, taskCompletionRate)}%">
+                            ${taskCompletionRate}%
+                        </div>
+                    </div>
+                    <div style="font-size: 0.85rem; color: #64748b; margin-top: 10px;">
+                        ${parseFloat(taskCompletionRate) >= 80 ? '🌟 Excellent!' : parseFloat(taskCompletionRate) >= 50 ? '👍 Good' : '💪 Keep Going'}
+                    </div>
+                </div>
+                
+                <div class="consistency-card">
+                    <div class="card-label">Habit Consistency</div>
+                    <div class="card-value">${habits.length > 0 ? habitConsistencyRate + '%' : 'No habits tracked'}</div>
+                    ${habits.length > 0 ? `
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" style="width: ${Math.min(100, habitConsistencyRate)}%">
+                            ${habitConsistencyRate}%
+                        </div>
+                    </div>
+                    <div style="font-size: 0.85rem; color: #64748b; margin-top: 10px;">
+                        ${habits.length} habit(s) tracked over ${Math.ceil((toDate - fromDate) / (1000 * 60 * 60 * 24)) + 1} days
+                    </div>
+                    ` : '<div style="font-size: 0.85rem; color: #94a3b8; margin-top: 10px;">Add habits to track consistency</div>'}
+                </div>
+            </div>
+            
+            <div class="insight-box">
+                <strong>${insightIcon} Insight:</strong> ${insightMessage}
+            </div>
+        </div>
+        
+        ${testsTableHtml}
+        
+        <!-- Footer -->
+        <div class="report-footer">
+            <p><strong>Generated by EigenX</strong> on ${generatedDate}</p>
+            <p class="footer-note">Keep pushing forward. Success is a journey, not a destination.</p>
+            <p style="margin-top: 20px; font-size: 0.8rem; opacity: 0.7;">EigenX - JEE Exam Tracker | Building Champions Since 2024</p>
+        </div>
+    </div>
+</body>
+</html>`;
+                
+                // Open in new window
+                const printWindow = window.open('', '_blank', 'width=900,height=700');
+                if (!printWindow) {
+                    alert('Please allow popups to generate the PDF report.');
+                    return;
+                }
+                
+                printWindow.document.write(reportHtml);
+                printWindow.document.close();
+                
+                // Close modal and trigger print
+                closeReportModal();
+                
+                setTimeout(() => {
+                    printWindow.focus();
+                    printWindow.print();
+                }, 800);
+                
+                console.log('PDF generation completed successfully!');
+                
+            } catch (error) {
+                console.error('Error generating PDF:', error);
+                alert('An error occurred while generating the PDF. Please check the console for details.');
+            }
+        }
+
+        // Expose functions to global scope for onclick handlers
+        window.openReportModal = openReportModal;
+        window.closeReportModal = closeReportModal;
+        window.generateAndPrintReport = generateAndPrintReport;
+        window.toggleDateInputs = toggleDateInputs;
 
         // ============================================
         // INITIALIZATION ON PAGE LOAD
@@ -5756,12 +6268,6 @@
                 onboardingSection.classList.remove('hidden');
             }
         }
-
-        // Expose functions to global scope for onclick handlers
-        window.openReportModal = openReportModal;
-        window.closeReportModal = closeReportModal;
-        window.generateAndPrintReport = generateAndPrintReport;
-        window.toggleDateInputs = toggleDateInputs;
 
         // Run initialization when DOM is ready
         document.addEventListener('DOMContentLoaded', init);
